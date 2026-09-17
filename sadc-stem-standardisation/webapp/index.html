@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SADC STEM Standardisation Dashboard</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>SADC STEM Standardisation Dashboard</h1>
+  <p>Tracking curriculum, assessment, teacher quality, gender equity, collaboration and qualification-recognition maturity across the 16 SADC member states.</p>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Regional overview</h2>
+    <div class="stat-row" id="stat-row"></div>
+    <div id="regional-chart"></div>
+    <div class="legend" id="legend"></div>
+    <p class="meta-note" id="meta-note"></p>
+  </section>
+
+  <section class="panel">
+    <h2>
+      Country &times; Dimension matrix
+      <span class="controls">
+        <button class="secondary" id="edit-toggle">Enable editing</button>
+        <button class="secondary" id="download-btn">Download updated data</button>
+        <button class="secondary" id="reset-btn">Reset from file</button>
+      </span>
+    </h2>
+    <table id="matrix">
+      <thead><tr id="matrix-head"></tr></thead>
+      <tbody id="matrix-body"></tbody>
+    </table>
+    <p class="meta-note">Click a country name to see its detail and priority actions. In edit mode, click a score cell to change it (0-4), then download the updated dataset and replace <code>data/assessments.json</code> in the repo to persist it.</p>
+  </section>
+
+  <section class="panel" id="detail-panel">
+    <h2 id="detail-title">Country detail</h2>
+    <div class="detail-grid" id="detail-grid"></div>
+    <h2 style="margin-top:1rem;">Priority actions (weakest dimensions)</h2>
+    <ul class="actions-list" id="detail-actions"></ul>
+  </section>
+
+  <section class="panel">
+    <h2>About this framework</h2>
+    <p>Each dimension is scored 0-4 against the SADC STEM standardisation maturity scale (Absent &rarr; Emerging &rarr; Developing &rarr; Established &rarr; Advanced). Scores are illustrative baselines derived from regional policy analysis (SADCQF, UNESCO/HAQAA, SADC Teacher Standards) and are meant to be replaced with verified national data over time &mdash; see <code>docs/METHODOLOGY.md</code> for the full write-up and <code>data/assessments.json</code> for the current dataset.</p>
+  </section>
+</main>
+
+<footer>SADC STEM Standardisation Tracker &middot; data-driven, editable, static site &middot; no external dependencies</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

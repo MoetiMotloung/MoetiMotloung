@@ -1,0 +1,18 @@
+[
+  { "code": "AGO", "name": "Angola" },
+  { "code": "BWA", "name": "Botswana" },
+  { "code": "COM", "name": "Comoros" },
+  { "code": "COD", "name": "DR Congo" },
+  { "code": "SWZ", "name": "Eswatini" },
+  { "code": "LSO", "name": "Lesotho" },
+  { "code": "MDG", "name": "Madagascar" },
+  { "code": "MWI", "name": "Malawi" },
+  { "code": "MUS", "name": "Mauritius" },
+  { "code": "MOZ", "name": "Mozambique" },
+  { "code": "NAM", "name": "Namibia" },
+  { "code": "SYC", "name": "Seychelles" },
+  { "code": "ZAF", "name": "South Africa" },
+  { "code": "TZA", "name": "Tanzania" },
+  { "code": "ZMB", "name": "Zambia" },
+  { "code": "ZWE", "name": "Zimbabwe" }
+]
