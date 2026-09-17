@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Southern &amp; East Africa Health Dashboard</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --card-shadow:    0 1px 2px rgba(11,11,11,0.06);
+    --sa: #2a78d6; --sa-track: #dce9f9;
+    --tz: #eb6834; --tz-track: #fbe3d5;
+    --ao: #1baf7a; --ao-track: #d7f0e6;
+    --mz: #eda100; --mz-track: #fbe9c9;
+    --good:     #0ca30c;
+    --warning:  #fab219;
+    --critical: #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --card-shadow:    0 1px 2px rgba(0,0,0,0.4);
+      --sa: #3987e5; --sa-track: #22344a;
+      --tz: #d95926; --tz-track: #3a271c;
+      --ao: #199e70; --ao-track: #163b2e;
+      --mz: #c98500; --mz-track: #3a2c11;
+      --good:     #0ca30c;
+      --warning:  #fab219;
+      --critical: #d03b3b;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --card-shadow:    0 1px 2px rgba(0,0,0,0.4);
+    --sa: #3987e5; --sa-track: #22344a;
+    --tz: #d95926; --tz-track: #3a271c;
+    --ao: #199e70; --ao-track: #163b2e;
+    --mz: #c98500; --mz-track: #3a2c11;
+    --good:     #0ca30c;
+    --warning:  #fab219;
+    --critical: #d03b3b;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { padding: 20px 16px 48px; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  header.top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px; margin-bottom: 4px; flex-wrap: wrap;
+  }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .subtitle { color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 14px; max-width: 68ch; }
+
+  button.theme-toggle {
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary);
+    border-radius: 8px; padding: 7px 12px; font-size: 0.8rem; cursor: pointer;
+    font-family: inherit;
+  }
+  button.theme-toggle:hover { border-color: var(--text-muted); }
+
+  .legend-row {
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    padding: 10px 14px; background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 22px; font-size: 0.85rem; color: var(--text-secondary);
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+  .swatch.sa { background: var(--sa); }
+  .swatch.tz { background: var(--tz); }
+  .swatch.ao { background: var(--ao); }
+  .swatch.mz { background: var(--mz); }
+  .legend-note { color: var(--text-muted); font-size: 0.78rem; }
+
+  nav.jumpnav {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px;
+  }
+  nav.jumpnav a {
+    font-size: 0.78rem; color: var(--text-secondary); text-decoration: none;
+    border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px;
+    background: var(--surface-1);
+  }
+  nav.jumpnav a:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+  section.block { margin-bottom: 32px; scroll-margin-top: 12px; }
+  h2.section-title {
+    font-size: 1.05rem; margin: 0 0 4px; display: flex; align-items: baseline; gap: 8px;
+  }
+  p.section-sub { margin: 0 0 14px; color: var(--text-secondary); font-size: 0.85rem; max-width: 74ch; }
+
+  /* KPI cards */
+  .kpi-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .kpi-cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .kpi-cards { grid-template-columns: 1fr; } }
+  .country-card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px; box-shadow: var(--card-shadow);
+    border-top: 3px solid var(--accent);
+  }
+  .country-card.sa { --accent: var(--sa); }
+  .country-card.tz { --accent: var(--tz); }
+  .country-card.ao { --accent: var(--ao); }
+  .country-card.mz { --accent: var(--mz); }
+  .country-card h3 { margin: 0 0 12px; font-size: 0.98rem; }
+  .stat-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .stat-tile .stat-label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 2px; }
+  .stat-tile .stat-value { font-size: 1.35rem; font-weight: 600; }
+  .stat-tile .stat-value small { font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); }
+
+  /* metric panel grid */
+  .panel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .panel {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px 12px; box-shadow: var(--card-shadow);
+  }
+  .panel-title { font-size: 0.82rem; font-weight: 600; margin: 0 0 2px; }
+  .panel-unit { font-size: 0.72rem; color: var(--text-muted); margin: 0 0 12px; }
+
+  .bar-line { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .bar-line:last-child { margin-bottom: 0; }
+  .bar-name { width: 26px; flex: none; font-size: 0.7rem; color: var(--text-secondary); font-weight: 600; }
+  .bar-track {
+    position: relative; flex: 1 1 auto; height: 14px; border-radius: 4px;
+    background: var(--track-bg); overflow: visible;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 4px 0 0 4px; min-width: 3px;
+    transition: width .5s ease; cursor: pointer;
+  }
+  .bar-fill:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
+  .bar-fill.full { border-radius: 4px; }
+  .bar-value {
+    flex: none; font-size: 0.75rem; font-weight: 600; min-width: 58px; text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .bar-line.sa .bar-track { background: var(--sa-track); } .bar-line.sa .bar-fill { background: var(--sa); }
+  .bar-line.tz .bar-track { background: var(--tz-track); } .bar-line.tz .bar-fill { background: var(--tz); }
+  .bar-line.ao .bar-track { background: var(--ao-track); } .bar-line.ao .bar-fill { background: var(--ao); }
+  .bar-line.mz .bar-track { background: var(--mz-track); } .bar-line.mz .bar-fill { background: var(--mz); }
+  .bar-line.na .bar-track { background: transparent; }
+  .bar-line.na .bar-value { color: var(--text-muted); font-weight: 500; font-style: italic; font-size: 0.7rem; text-align: left; min-width: 0; }
+
+  .panel-src { margin-top: 10px; font-size: 0.68rem; color: var(--text-muted); }
+
+  /* tooltip */
+  #tooltip {
+    position: fixed; pointer-events: none; z-index: 50;
+    background: var(--text-primary); color: var(--page);
+    padding: 6px 9px; border-radius: 6px; font-size: 0.75rem;
+    max-width: 220px; opacity: 0; transform: translateY(4px);
+    transition: opacity .12s ease, transform .12s ease;
+  }
+  #tooltip.show { opacity: 1; transform: translateY(0); }
+  #tooltip .tt-value { font-weight: 700; }
+  #tooltip .tt-label { opacity: .8; }
+
+  /* insight cards */
+  .insights { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .insight {
+    background: var(--surface-1); border: 1px solid var(--border); border-left: 4px solid var(--accent);
+    border-radius: 10px; padding: 14px 16px; font-size: 0.85rem; color: var(--text-secondary);
+    box-shadow: var(--card-shadow);
+  }
+  .insight strong { color: var(--text-primary); }
+  .insight.sa { --accent: var(--sa); }
+  .insight.tz { --accent: var(--tz); }
+  .insight.ao { --accent: var(--ao); }
+  .insight.mz { --accent: var(--mz); }
+  .insight.both { --accent: var(--text-muted); }
+
+  /* intervention cards */
+  .intervention-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .intervention-card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px; box-shadow: var(--card-shadow);
+  }
+  .intervention-card h3 { margin: 0 0 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+  .intervention-card .icon-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .intervention-card p { font-size: 0.83rem; color: var(--text-secondary); margin: 0 0 10px; line-height: 1.5; }
+  .country-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 0.68rem; font-weight: 600; padding: 3px 9px; border-radius: 999px;
+    color: var(--text-primary); border: 1px solid var(--border);
+  }
+  .tag.sa { background: var(--sa-track); } .tag.tz { background: var(--tz-track); }
+  .tag.ao { background: var(--ao-track); } .tag.mz { background: var(--mz-track); }
+
+  /* status callout */
+  .callout {
+    display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px;
+    border-radius: 10px; border: 1px solid var(--border); background: var(--surface-1);
+    box-shadow: var(--card-shadow); margin-bottom: 14px;
+  }
+  .callout .status-icon {
+    flex: none; width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 800; color: #1a1a19;
+  }
+  .callout.warning .status-icon { background: var(--warning); }
+  .callout.critical .status-icon { background: var(--critical); color: #fff; }
+  .callout p { margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; }
+  .callout strong { color: var(--text-primary); }
+
+  /* data table */
+  details.table-toggle {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 16px;
+  }
+  details.table-toggle summary {
+    cursor: pointer; font-size: 0.9rem; font-weight: 600; list-style: none;
+  }
+  details.table-toggle summary::-webkit-details-marker { display: none; }
+  .table-scroll { overflow-x: auto; }
+  table.data-table {
+    width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.76rem; min-width: 640px;
+  }
+  table.data-table th, table.data-table td {
+    text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--grid);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  table.data-table th { color: var(--text-muted); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: .02em; }
+  table.data-table td.num { text-align: right; }
+  table.data-table td.metric-name, table.data-table th.metric-name { white-space: normal; min-width: 220px; }
+
+  footer.sources {
+    margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--grid);
+    font-size: 0.74rem; color: var(--text-muted); line-height: 1.6;
+  }
+  footer.sources ol { margin: 6px 0 0; padding-left: 18px; }
+  footer.sources a { color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>Southern &amp; East Africa Disease Burden Dashboard</h1>
+      <p class="subtitle">South Africa, Tanzania, Angola and Mozambique compared — infectious (communicable) diseases, non‑communicable disease (NCD) risk factors, and the interventions working to rebalance the region's health profile. Sources: WHO, UNAIDS, the Global Fund and World Bank, latest year available per indicator (2011–2025).</p>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button">🌓 Toggle theme</button>
+  </header>
+
+  <div class="legend-row">
+    <div class="legend-item"><span class="swatch sa"></span> South Africa</div>
+    <div class="legend-item"><span class="swatch tz"></span> Tanzania</div>
+    <div class="legend-item"><span class="swatch ao"></span> Angola</div>
+    <div class="legend-item"><span class="swatch mz"></span> Mozambique</div>
+    <span class="legend-note">Hover or focus any bar for the exact value and source.</span>
+  </div>
+
+  <nav class="jumpnav">
+    <a href="#snapshot">Snapshot</a>
+    <a href="#mortality">Mortality profile</a>
+    <a href="#infectious">Infectious diseases</a>
+    <a href="#ncd">NCD risk factors</a>
+    <a href="#interventions">Solutions &amp; interventions</a>
+    <a href="#balance">Regional balance</a>
+  </nav>
+
+  <section class="block" id="snapshot">
+    <h2 class="section-title">Country snapshot</h2>
+    <div class="kpi-cards">
+      <div class="country-card sa">
+        <h3>South Africa</h3>
+        <div class="stat-row">
+          <div class="stat-tile"><div class="stat-label">Population</div><div class="stat-value">60.4<small>M</small></div></div>
+          <div class="stat-tile"><div class="stat-label">Life expectancy</div><div class="stat-value">66.1<small> yrs</small></div></div>
+        </div>
+      </div>
+      <div class="country-card tz">
+        <h3>Tanzania</h3>
+        <div class="stat-row">
+          <div class="stat-tile"><div class="stat-label">Population</div><div class="stat-value">67.4<small>M</small></div></div>
+          <div class="stat-tile"><div class="stat-label">Life expectancy</div><div class="stat-value">67.0<small> yrs</small></div></div>
+        </div>
+      </div>
+      <div class="country-card ao">
+        <h3>Angola</h3>
+        <div class="stat-row">
+          <div class="stat-tile"><div class="stat-label">Population</div><div class="stat-value">36.7<small>M</small></div></div>
+          <div class="stat-tile"><div class="stat-label">Life expectancy</div><div class="stat-value">64.6<small> yrs</small></div></div>
+        </div>
+      </div>
+      <div class="country-card mz">
+        <h3>Mozambique</h3>
+        <div class="stat-row">
+          <div class="stat-tile"><div class="stat-label">Population</div><div class="stat-value">33.9<small>M</small></div></div>
+          <div class="stat-tile"><div class="stat-label">Life expectancy</div><div class="stat-value">63.6<small> yrs</small></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="mortality">
+    <h2 class="section-title">Overall mortality profile</h2>
+    <p class="section-sub">What share of all deaths each year come from non‑communicable diseases versus infectious, maternal, nutritional and injury causes combined — the clearest single marker of where each country sits on the "epidemiological transition."</p>
+    <div class="panel-grid" id="panelMortality"></div>
+  </section>
+
+  <section class="block" id="infectious">
+    <h2 class="section-title">Infectious disease burden</h2>
+    <p class="section-sub">South Africa carries the world's largest HIV epidemic and one of the highest TB rates. Mozambique and Angola face the heaviest combined HIV+malaria load. Tanzania's burden is dominated by malaria. Each panel uses its own scale — units differ across panels.</p>
+    <div class="panel-grid" id="panelInfectious"></div>
+  </section>
+
+  <section class="block" id="ncd">
+    <h2 class="section-title">Non‑communicable disease risk factors</h2>
+    <p class="section-sub">Adult prevalence of the three risk factors driving the region's rising NCD burden. Surveys differ in year, age range and methodology between countries (South Africa: SANHANES 2011–12 / SADHS 2016; Tanzania &amp; Mozambique: national STEPS-type surveys; Angola: a sub-national survey, the only one available) — treat as an order-of-magnitude comparison, not exact parity.</p>
+    <div class="panel-grid" id="panelNCD"></div>
+  </section>
+
+  <section class="block" id="interventions">
+    <h2 class="section-title">Solutions &amp; interventions</h2>
+    <p class="section-sub">What is actively being deployed against each disease group across the four countries, and where the region's biggest structural risk now sits.</p>
+
+    <div class="callout critical">
+      <div class="status-icon">!</div>
+      <p><strong>Funding shock, 2025.</strong> A US foreign-aid freeze disrupted PEPFAR-funded HIV prevention, testing and treatment support across the region just as the Global Fund's Eighth Replenishment fell short — raising $11.4B of an $18B target at its November 2025 summit in Johannesburg. Modelling projects up to 74,000 excess HIV deaths across Africa by 2030 if disruptions persist. Dependency on that funding is very uneven across these four countries — see <a href="#balance">Regional balance</a> below.</p>
+    </div>
+
+    <div class="intervention-grid">
+      <div class="intervention-card">
+        <h3><span class="icon-dot" style="background:var(--sa)"></span>HIV — treat and prevent at scale</h3>
+        <p>Universal test-and-treat with same-day antiretroviral therapy (ART) start; pre-exposure prophylaxis (PrEP, including long-acting injectable options); voluntary medical male circumcision; and the DREAMS programme for adolescent girls and young women. South Africa runs the world's largest ART programme (~5.9M people on treatment) and is now the most donor-independent of the four; Mozambique and Tanzania still rely on PEPFAR for the bulk of prevention funding, which halted DREAMS activities in 2025.</p>
+        <div class="country-tags"><span class="tag sa">South Africa</span><span class="tag tz">Tanzania</span><span class="tag ao">Angola</span><span class="tag mz">Mozambique</span></div>
+      </div>
+
+      <div class="intervention-card">
+        <h3><span class="icon-dot" style="background:var(--tz)"></span>TB — find, treat, prevent</h3>
+        <p>Rapid molecular diagnostics (GeneXpert), community-based active case-finding, TB preventive therapy for people living with HIV, and household contact tracing. Mozambique's community-based service delivery model and Tanzania are both on track to meet the WHO End TB 2025 milestone (75% reduction in deaths vs. 2015); South Africa and Angola — the two highest-incidence countries here — are scaling shorter multidrug-resistant TB regimens and digital chest X-ray screening.</p>
+        <div class="country-tags"><span class="tag tz">Tanzania</span><span class="tag mz">Mozambique</span><span class="tag sa">South Africa</span><span class="tag ao">Angola</span></div>
+      </div>
+
+      <div class="intervention-card">
+        <h3><span class="icon-dot" style="background:var(--ao)"></span>Malaria — nets, spraying, and now vaccines</h3>
+        <p>Mass distribution of insecticide-treated nets (including newer dual-active-ingredient nets to counter resistance), indoor residual spraying, and seasonal chemoprevention. Mozambique introduced the RTS,S/R21 malaria vaccine into routine immunisation in 2024; Tanzania and Angola have not yet introduced a vaccine (Angola has plans underway). South Africa — near elimination — instead runs targeted spraying and cross-border coordination with Mozambique and Eswatini (the Lubombo/Trans-frontier malaria initiative) to stop imported cases from re-establishing transmission.</p>
+        <div class="country-tags"><span class="tag mz">Mozambique</span><span class="tag sa">South Africa</span><span class="tag tz">Tanzania</span><span class="tag ao">Angola</span></div>
+      </div>
+
+      <div class="intervention-card">
+        <h3><span class="icon-dot" style="background:var(--mz)"></span>NCDs — primary-care integration</h3>
+        <p>WHO's PEN and PEN-Plus packages push hypertension and diabetes screening and treatment into primary care and severe-case management (type 1 diabetes, rheumatic heart disease) into first-level rural hospitals. South Africa has the region's most mature response — a sugar-sweetened beverage levy and salt-reduction regulation alongside PEN-Plus pilots — while Tanzania, Mozambique and Angola are earlier in rolling out NCD surveillance (STEPS surveys) and integrating chronic care, with WHO AFRO reporting NCD deaths in the region have risen from 24% (2000) to 37% of all deaths (2019).</p>
+        <div class="country-tags"><span class="tag sa">South Africa</span><span class="tag tz">Tanzania</span><span class="tag mz">Mozambique</span><span class="tag ao">Angola</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="balance">
+    <h2 class="section-title">Regional balance: who depends on what</h2>
+    <p class="section-sub">Share of national HIV programme funding coming from the single largest external donor (PEPFAR) — the clearest fault line in how resilient each country's response is to the 2025 funding shock.</p>
+    <div class="panel-grid" id="panelFunding"></div>
+
+    <div class="insights" style="margin-top:14px;">
+      <div class="insight sa"><strong>South Africa: most self-financed, still highest combined burden.</strong> Under 25% PEPFAR-dependent and able to absorb funding shocks better, but it still carries the region's largest HIV epidemic, highest TB incidence, and — as the most economically developed of the four — the most advanced (and largest) NCD burden.</div>
+      <div class="insight tz"><strong>Tanzania &amp; Mozambique: highest exposure to the funding shock.</strong> Roughly 90% and 82% of HIV prevention funding respectively comes from PEPFAR, so the 2025 disruption hit hardest here — even though both have made genuine gains (Mozambique's malaria vaccine rollout, both nations' near-met End TB milestones).</div>
+      <div class="insight ao"><strong>Angola: least data, real disruption.</strong> National-level survey data on NCDs and even HIV prevention financing is sparser for Angola than the other three — a gap in itself — but PEPFAR-funded outreach has already stopped in 4 of its 21 provinces in 2025, and it remains one of the ten highest malaria-case countries worldwide.</div>
+      <div class="insight both"><strong>One region, four different transition points.</strong> Mozambique and Angola still sit earliest in the communicable-to-NCD transition (NCDs ~28–32% of deaths); Tanzania is mid-transition (~34%); South Africa is furthest along (~51%) — meaning the same regional funding cut lands on four very different underlying risk profiles at once.</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <details class="table-toggle">
+      <summary>View full data table</summary>
+      <div class="table-scroll">
+      <table class="data-table" id="dataTable">
+        <thead><tr>
+          <th class="metric-name">Metric</th>
+          <th class="num">South Africa</th><th class="num">Tanzania</th>
+          <th class="num">Angola</th><th class="num">Mozambique</th>
+          <th>Year</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      </div>
+    </details>
+  </section>
+
+  <footer class="sources">
+    Figures are the latest nationally reported estimates available per indicator and are approximate; survey years and methods are not fully aligned across all four countries — Angola and Mozambique in particular rely on older or sub-national surveys for NCD risk factors, which is itself part of the regional picture (weaker surveillance infrastructure).
+    <ol id="sourceList"></ol>
+  </footer>
+
+</div>
+
+<div id="tooltip" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var COUNTRIES = [
+    { key: 'sa', abbr: 'SA', name: 'South Africa' },
+    { key: 'tz', abbr: 'TZ', name: 'Tanzania' },
+    { key: 'ao', abbr: 'AO', name: 'Angola' },
+    { key: 'mz', abbr: 'MZ', name: 'Mozambique' }
+  ];
+
+  // ---------- theme toggle ----------
+  var root = document.documentElement;
+  var toggleBtn = document.getElementById('themeToggle');
+  function getStoredTheme() {
+    try { return localStorage.getItem('africa-health-theme'); } catch (e) { return null; }
+  }
+  function setTheme(mode) {
+    if (mode === 'light' || mode === 'dark') { root.setAttribute('data-theme', mode); }
+    else { root.removeAttribute('data-theme'); }
+    try { localStorage.setItem('africa-health-theme', mode || 'system'); } catch (e) {}
+  }
+  var stored = getStoredTheme();
+  if (stored) setTheme(stored === 'system' ? null : stored);
+  toggleBtn.addEventListener('click', function () {
+    var current = root.getAttribute('data-theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var effectiveIsDark = current ? current === 'dark' : prefersDark;
+    setTheme(effectiveIsDark ? 'light' : 'dark');
+  });
+
+  // ---------- sources ----------
+  var sources = [
+    "World Bank / UN population estimates, 2023; World Bank Life expectancy at birth (SP.DYN.LE00.IN), 2023.",
+    "World Bank / WHO Global Health Estimates, Cause of death by non‑communicable diseases (% of total): South Africa & Tanzania 2019, Angola 2019, Mozambique ~2012 (older estimate, noted).",
+    "UNAIDS / WHO HIV epidemiological estimates — South Africa 2023, Tanzania prevalence 2022, Angola prevalence from the 2015/16 Demographic & Health Survey with UNAIDS 2022 PLHIV/deaths, Mozambique UNAIDS/CDC 2023.",
+    "WHO Global Tuberculosis Report 2024 — incidence and deaths, 2023 (Mozambique death count derived from the reported per-100,000 mortality rate; corroborated against the ~5,000 figure in the 2023 report).",
+    "WHO World Malaria Report 2024 — cases and deaths, 2023; South Africa figures also via NICD / National Malaria Elimination Programme.",
+    "NCD risk factors: South Africa — SANHANES‑1 2011–12 (diabetes) & South Africa Demographic and Health Survey 2016 (hypertension, overweight/obesity by sex); Tanzania — national NCD survey, ages 25–64, plus a separate cross-sectional obesity study; Angola — Dande municipality survey, ages 15–64 (hypertension, diabetes) and a Northern Angola obesity study — the only available data, not nationally representative; Mozambique — national STEPS surveys 2005 & 2014/15 (hypertension, diabetes, overweight by sex).",
+    "UNAIDS, 'Impact of US funding cuts on HIV programmes in East and Southern Africa' and related country features, March–April 2025; PEPFAR dependency shares for Tanzania (~90%) and Mozambique (~82%); South Africa reported under 25%. The Global Fund, Eighth Replenishment Summit results, November 2025 (Johannesburg).",
+    "WHO Regional Office for Africa — NCD burden trend (24% of deaths in 2000 to 37% in 2019) and PEN‑Plus / WHO‑PEN programme descriptions; WHO malaria vaccine rollout status (RTS,S/R21) by country, 2024."
+  ];
+  var srcList = document.getElementById('sourceList');
+  sources.forEach(function (s) {
+    var li = document.createElement('li');
+    li.textContent = s;
+    srcList.appendChild(li);
+  });
+
+  // ---------- tooltip ----------
+  var tooltip = document.getElementById('tooltip');
+  function showTooltip(x, y, label, value) {
+    var valEl = document.createElement('div'); valEl.className = 'tt-value'; valEl.textContent = value;
+    var labEl = document.createElement('div'); labEl.className = 'tt-label'; labEl.textContent = label;
+    tooltip.textContent = '';
+    tooltip.appendChild(valEl); tooltip.appendChild(labEl);
+    var vw = window.innerWidth;
+    var left = x + 14;
+    if (left + 230 > vw) left = x - 230;
+    tooltip.style.left = Math.max(8, left) + 'px';
+    tooltip.style.top = (y - 12) + 'px';
+    tooltip.classList.add('show');
+  }
+  function hideTooltip() { tooltip.classList.remove('show'); }
+
+  // ---------- data table rows ----------
+  var tableBody = document.querySelector('#dataTable tbody');
+  function addTableRow(metric, values, year) {
+    var tr = document.createElement('tr');
+    var tdM = document.createElement('td'); tdM.className = 'metric-name'; tdM.textContent = metric;
+    tr.appendChild(tdM);
+    COUNTRIES.forEach(function (c) {
+      var td = document.createElement('td'); td.className = 'num';
+      td.textContent = (values[c.key] !== undefined && values[c.key] !== null) ? values[c.key] : '—';
+      tr.appendChild(td);
+    });
+    var tdY = document.createElement('td'); tdY.textContent = year;
+    tr.appendChild(tdY);
+    tableBody.appendChild(tr);
+  }
+
+  // ---------- panel renderer ----------
+  // metric: { title, unit, values:{sa,tz,ao,mz}, labels:{sa,tz,ao,mz}, srcNote, year, tableMetric, notes:{key:'text'} for N/A rows }
+  function renderPanel(container, metric) {
+    var panel = document.createElement('div');
+    panel.className = 'panel';
+
+    var title = document.createElement('p'); title.className = 'panel-title'; title.textContent = metric.title;
+    panel.appendChild(title);
+    var unit = document.createElement('p'); unit.className = 'panel-unit'; unit.textContent = metric.unit;
+    panel.appendChild(unit);
+
+    var numericVals = COUNTRIES.map(function (c) { return metric.values[c.key]; }).filter(function (v) { return typeof v === 'number'; });
+    var maxVal = (numericVals.length ? Math.max.apply(null, numericVals) : 1) * 1.08 || 1;
+
+    COUNTRIES.forEach(function (c) {
+      var value = metric.values[c.key];
+      var line = document.createElement('div');
+      var isNA = typeof value !== 'number';
+      line.className = 'bar-line ' + c.key + (isNA ? ' na' : '');
+
+      var name = document.createElement('div'); name.className = 'bar-name'; name.textContent = c.abbr;
+      line.appendChild(name);
+
+      if (isNA) {
+        var track0 = document.createElement('div'); track0.className = 'bar-track'; track0.style.background = 'transparent';
+        line.appendChild(track0);
+        var val0 = document.createElement('div'); val0.className = 'bar-value';
+        val0.textContent = (metric.notes && metric.notes[c.key]) || 'not available';
+        line.appendChild(val0);
+        panel.appendChild(line);
+        return;
+      }
+
+      var track = document.createElement('div'); track.className = 'bar-track';
+      var fill = document.createElement('div');
+      var pct = Math.max((value / maxVal) * 100, 1.5);
+      fill.className = 'bar-fill' + (pct > 97 ? ' full' : '');
+      fill.style.width = pct + '%';
+      fill.tabIndex = 0;
+      fill.setAttribute('role', 'img');
+      var label = metric.labels[c.key];
+      fill.setAttribute('aria-label', c.name + ': ' + label);
+
+      function onEnter(e) {
+        var pt = e.touches ? e.touches[0] : e;
+        showTooltip(pt.clientX, pt.clientY, c.name + ' — ' + metric.title, label);
+      }
+      fill.addEventListener('pointerenter', onEnter);
+      fill.addEventListener('pointermove', onEnter);
+      fill.addEventListener('pointerleave', hideTooltip);
+      fill.addEventListener('focus', function () {
+        var r = fill.getBoundingClientRect();
+        showTooltip(r.right, r.top, c.name + ' — ' + metric.title, label);
+      });
+      fill.addEventListener('blur', hideTooltip);
+
+      track.appendChild(fill);
+      line.appendChild(track);
+
+      var val = document.createElement('div'); val.className = 'bar-value'; val.textContent = label;
+      line.appendChild(val);
+
+      panel.appendChild(line);
+    });
+
+    if (metric.srcNote) {
+      var src = document.createElement('p'); src.className = 'panel-src'; src.textContent = metric.srcNote;
+      panel.appendChild(src);
+    }
+
+    container.appendChild(panel);
+    var tableLabels = {};
+    COUNTRIES.forEach(function (c) { tableLabels[c.key] = metric.labels[c.key] || (metric.notes && metric.notes[c.key]) || '—'; });
+    addTableRow(metric.tableMetric || metric.title, tableLabels, metric.year);
+  }
+
+  // ---------- mortality profile ----------
+  var mortalityMetrics = [
+    {
+      title: 'Non‑communicable disease share of deaths',
+      unit: '% of all deaths',
+      values: { sa: 51.3, tz: 34.4, ao: 31.8, mz: 28.0 },
+      labels: { sa: '51.3%', tz: '34.4%', ao: '31.8%', mz: '28.0%' },
+      srcNote: 'Source [2] · SA/TZ/AO 2019, MZ ~2012 (older estimate)',
+      year: 'mostly 2019'
+    },
+    {
+      title: 'Infectious, maternal, nutritional & injury share',
+      unit: '% of all deaths (remainder)',
+      values: { sa: 48.7, tz: 65.6, ao: 68.2, mz: 72.0 },
+      labels: { sa: '48.7%', tz: '65.6%', ao: '68.2%', mz: '72.0%' },
+      srcNote: 'Source [2] · calculated as 100% − NCD share',
+      year: 'mostly 2019'
+    }
+  ];
+  var panelMortality = document.getElementById('panelMortality');
+  mortalityMetrics.forEach(function (m) { renderPanel(panelMortality, m); });
+
+  // ---------- infectious disease burden ----------
+  var infectiousMetrics = [
+    {
+      title: 'HIV prevalence, ages 15–49',
+      unit: '% of adults living with HIV',
+      values: { sa: 17.1, tz: 4.4, ao: 2.0, mz: 12.3 },
+      labels: { sa: '17.1%', tz: '4.4%', ao: '2.0%', mz: '12.3%' },
+      srcNote: 'Source [3] · SA 2023, TZ 2022, AO 2015/16 DHS, MZ latest UNAIDS',
+      year: 'varies, see note',
+      tableMetric: 'HIV prevalence, ages 15–49 (%)'
+    },
+    {
+      title: 'Annual AIDS‑related deaths',
+      unit: 'estimated deaths per year, all ages',
+      values: { sa: 49000, tz: 27000, ao: 9700, mz: 36000 },
+      labels: { sa: '49,000', tz: '27,000', ao: '9,700', mz: '36,000' },
+      srcNote: 'Source [3] · SA/MZ 2023, TZ/AO 2022',
+      year: '2022–2023'
+    },
+    {
+      title: 'TB incidence',
+      unit: 'per 100,000 people',
+      values: { sa: 427, tz: 183, ao: 325, mz: 361 },
+      labels: { sa: '427', tz: '183', ao: '325', mz: '361' },
+      srcNote: 'Source [4] · 2023',
+      year: '2023'
+    },
+    {
+      title: 'Annual TB deaths',
+      unit: 'estimated deaths per year',
+      values: { sa: 56000, tz: 18400, ao: 22000, mz: 5000 },
+      labels: { sa: '56,000', tz: '18,400', ao: '22,000', mz: '~5,000' },
+      srcNote: 'Source [4] · 2023 · Mozambique figure approximate (derived/corroborated)',
+      year: '2023'
+    },
+    {
+      title: 'Malaria cases',
+      unit: 'reported cases per year',
+      values: { sa: 9800, tz: 3800000, ao: 8251000, mz: 10500000 },
+      labels: { sa: '9,800', tz: '3.8M', ao: '8.25M', mz: '10M+' },
+      srcNote: 'Source [5] · 2023 · SA cases mostly imported, confined to 3 provinces',
+      year: '2023',
+      tableMetric: 'Malaria cases (annual)'
+    },
+    {
+      title: 'Malaria deaths',
+      unit: 'estimated deaths per year',
+      values: { sa: 106, tz: 25400, ao: 16169, mz: 22000 },
+      labels: { sa: '106', tz: '~25,400', ao: '16,169', mz: '~22,000' },
+      srcNote: 'Source [5] · 2023',
+      year: '2023',
+      tableMetric: 'Malaria deaths (annual)'
+    }
+  ];
+  var panelInfectious = document.getElementById('panelInfectious');
+  infectiousMetrics.forEach(function (m) { renderPanel(panelInfectious, m); });
+
+  // ---------- NCD risk factors ----------
+  var ncdMetrics = [
+    {
+      title: 'Hypertension prevalence, adults',
+      unit: '% of adults',
+      values: { sa: 48.2, tz: 25.9, ao: 18.0, mz: 38.9 },
+      labels: { sa: '48.2%', tz: '25.9%', ao: '18.0%', mz: '38.9%' },
+      srcNote: 'Source [6] · SA DHS 2016 (15+); TZ & MZ national surveys (25–64); AO sub-national survey only (15–64)',
+      year: 'see note'
+    },
+    {
+      title: 'Diabetes prevalence, adults',
+      unit: '% of adults',
+      values: { sa: 10.1, tz: 9.1, ao: 9.2, mz: 7.4 },
+      labels: { sa: '10.1%', tz: '9.1%', ao: '9.2%', mz: '7.4%' },
+      srcNote: 'Source [6] · SA SANHANES 2011–12 (15+, age-standardised); TZ & MZ national surveys (25–64); AO sub-national survey only (15–64)',
+      year: 'see note'
+    },
+    {
+      title: 'Overweight / obesity prevalence, adults',
+      unit: '% of adults (definitions differ — see source note)',
+      values: { sa: 49.4, tz: 17.4, ao: 15.0, mz: 24.4 },
+      labels: { sa: '49.4%*', tz: '17.4%', ao: '15.0%*', mz: '24.4%*' },
+      srcNote: 'Source [6] · SA = avg of male 31.3% / female 67.5% overweight+obesity (DHS 2016); AO = obesity only, Northern Angola study; MZ = avg of male 18.2% / female 30.5% overweight (STEPS 2014/15); TZ = single obesity estimate. *Not directly comparable across countries.',
+      year: 'see note'
+    }
+  ];
+  var panelNCD = document.getElementById('panelNCD');
+  ncdMetrics.forEach(function (m) { renderPanel(panelNCD, m); });
+
+  // ---------- PEPFAR funding dependency ----------
+  var fundingMetrics = [
+    {
+      title: 'Share of HIV programme funding from PEPFAR',
+      unit: '% of national HIV response, as reported in 2025',
+      values: { sa: 22, tz: 90, ao: null, mz: 81.8 },
+      labels: { sa: '<25%', tz: '~90%', mz: '~82%' },
+      notes: { ao: 'Not quantified — outreach halted in 4 of 21 provinces (2025)' },
+      srcNote: 'Source [7] · UNAIDS country impact features, March–April 2025',
+      year: '2025',
+      tableMetric: 'PEPFAR share of HIV funding (%)'
+    }
+  ];
+  var panelFunding = document.getElementById('panelFunding');
+  fundingMetrics.forEach(function (m) { renderPanel(panelFunding, m); });
+
+  // population/life-expectancy rows into table too
+  addTableRow('Population (millions)', { sa: '60.4', tz: '67.4', ao: '36.7', mz: '33.9' }, '2023');
+  addTableRow('Life expectancy at birth (years)', { sa: '66.1', tz: '67.0', ao: '64.6', mz: '63.6' }, '2023');
+
+})();
+</script>
+</body>
+</html>
