@@ -79,7 +79,35 @@ unproven**.
 
 ---
 
-## 4. Batloung ba ha Sekhoane
+## 4. Where the Batloung fit in the Basotho story
+
+A widely shared post tells how the Basotho began. Below, each stage of the post is set beside what the written record
+(mostly Macgregor's *Basuto Traditions*, 1905) says about the Batloung at that point.
+
+| Stage | What the post says | What the record says about the Batloung |
+|---|---|---|
+| Two peoples meet | The Basotho came from dark-skinned Bakone from the north and light-skinned Barwa (Khoi and San) in the south | The clan's own account says they came **from Bopedi** in the north-east; other writers call them a branch of the **Barolong** |
+| Settling the highveld | Clans spread across the interior, each known by its totem | Lekhetho → Ranale → **Sekhoane** moved south-west through Thabakholokoe to Nkokoto, then to Bethlehem, Retief's Nek and Slabbert's Nek. Totem: **elephant** |
+| The Mfecane (1815–1840) | Shaka and Mzilikazi scattered the Basotho | The Batlokoa drove Montso's people out. They sheltered with Pakalita (Hlubi), then Matiwane (Ngwane), who killed them in a kraal; only **Tiitii** escaped. The Korana killed Moshabesha |
+| Regrouping under Moshoeshoe | The southern Basotho gathered under Moshoeshoe; the northern groups kept older traditions | Both Sekhoane branches reached **Moshoeshoe at Thaba Bosiu**. **Mantsela**, great-great-granddaughter of Sekhube, was one of his wives |
+| A call to unite | 55 clans and 15 resistance wars; all should unite | Batloung live on both sides of the old split: the Sekhoane, Sejake and Nape houses in Lesotho and the Free State, and the elephant-totem Bakgwatheng in Botswana |
+
+### How the post's claims compare with the history books
+- **Supported:** the Mfecane scattered the Basotho, who regrouped under Moshoeshoe. Some historians argue Shaka alone
+  didn't cause it, and that drought, the slave trade and Griqua and Korana raids also played a part.
+- **Supported:** the resistance wars are real, including Moshoeshoe's wars and the Gun War of 1880–81.
+- **Simplified:** "a union of Bakone and Barwa". The Basotho descend mainly from Bantu-speaking farmers who settled over a
+  thousand years ago and mixed with Khoi and San people over many centuries. The click sounds in Sesotho come from that mixing.
+- **Uncertain:** "more than 2 million Mfecane deaths". No reliable count exists.
+- **Inaccurate:** Moshoeshoe welcomed the *Protestant* Paris Evangelical Missionary Society in 1833. Catholic missionaries came about 1862.
+- **Overstated:** "3 million Makololo in Zambia". The Makololo ruled Barotseland from about 1840 until 1864. Their lasting mark is the Silozi language.
+- **Not supported:** "the Nguni came from North Africa about 2,000 years ago". The evidence points to the Bantu migration from West-Central Africa.
+
+I couldn't see the original post, so this follows the user's summary of it.
+
+---
+
+## 5. Batloung ba ha Sekhoane
 
 In 1904 C. Macgregor, Assistant Commissioner at Leribe, wrote down the Batloung's own account of their history. It was published in *Basuto Traditions* (1905), in the chapter "The Batloung" on pp. 55–57
 ([archive.org](https://archive.org/details/basutotraditions00macg)). The 1905 text spells the name
@@ -133,7 +161,7 @@ Bakgwatheng link in section 3 stays unproven.
 
 ---
 
-## 5. Sekhoane and Nape compared
+## 6. Sekhoane and Nape compared
 
 | | **Batloung ba ha Sekhoane** | **Batloung ba ha Nape** |
 |---|---|---|
@@ -161,7 +189,7 @@ Nape praise source: https://izithakazelo.blog/izithakazelo-zakwa-motloung-motlou
 
 ---
 
-## 6. How to trace your own line
+## 7. How to trace your own line
 
 1. **Your family's seboko (clan praise).** The praise usually names the founding ancestor and branch
    (e.g. *Ma-Napo-a-Khare*, *wa ha Nape*, *Letela*). Compare it with the diboko in the sources below.
