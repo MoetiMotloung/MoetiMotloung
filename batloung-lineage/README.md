@@ -133,7 +133,35 @@ Bakgwatheng link in section 3 stays unproven.
 
 ---
 
-## 5. How to trace your own line
+## 5. Sekhoane and Nape compared
+
+| | **Batloung ba ha Sekhoane** | **Batloung ba ha Nape** |
+|---|---|---|
+| Praise opens | *"Motloung oa ha Sekhoane! Oa tloho, ke u pepe…"* | *"Motloung ke motho wa ha Nape ya ha Nauwe…"* |
+| Founder named | Sekhoane, son of Ranale | Nape, "of Nauwe's house" |
+| Kin named in the praise | Motšoane; brothers Sejake and Motlomelo | The Marabe ("motho wabo Marabe Sekotwana"); Moholei |
+| Images | A mother carrying her child in a lambskin; elephants entering a cave head-first; herds grazing with no herders | An elephant that lives on sorghum and maize; cattle; a warning to witches |
+| Closing cry | "Aheee tlou, Aheee sebata!" | "Hele helele tlou!" |
+| Written history | Macgregor 1905: six chiefs and a route from Bopedi to Thaba Bosiu | None found; Nape isn't in Macgregor's Batloung chapter |
+| Clues to place | Bethlehem → Retief's Nek → Slabbert's Nek → Thaba Bosiu | The Marabe lived at Yoalaboholo in the Caledon valley under Khoabane (Macgregor) |
+
+**How they connect:** both houses belong to the same elephant clan, but no source I found shows where one branches
+from the other. Macgregor followed only the chiefs' line and mentions groups that broke away (Sejake's people, and
+stragglers who joined the Batlokoa) without following them. A house named after Nape could have grown from one of
+those groups. MatheVK's collection is said to list *ma-Napo-a-Khare* in the same praise as *Motšoane'a Sekhoane*, which would suggest
+kinship, but I couldn't open the page to confirm it.
+
+**Don't confuse Nape with Napo.** In *Basuto Traditions*, Napo is a chief of the Bakoena and the Makhoakhoa, a
+different clan.
+
+**Which house is yours?** A praise with "oa ha Sekhoane", "Motšoane" or "Sejake le Motlomelo" means Sekhoane.
+One with "wa ha Nape ya ha Nauwe" or "wabo Marabe" means Nape.
+
+Nape praise source: https://izithakazelo.blog/izithakazelo-zakwa-motloung-motloung-clan/
+
+---
+
+## 6. How to trace your own line
 
 1. **Your family's seboko (clan praise).** The praise usually names the founding ancestor and branch
    (e.g. *Ma-Napo-a-Khare*, *wa ha Nape*, *Letela*). Compare it with the diboko in the sources below.
