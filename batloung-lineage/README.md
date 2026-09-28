@@ -79,7 +79,61 @@ unproven**.
 
 ---
 
-## 4. How to trace your own line
+## 4. Batloung ba ha Sekhoane
+
+In 1904 C. Macgregor, Assistant Commissioner at Leribe, wrote down the Batloung's own account of their history. It was published in *Basuto Traditions* (1905), in the chapter "The Batloung" on pp. 55–57
+([archive.org](https://archive.org/details/basutotraditions00macg)). The 1905 text spells the name
+*Sekhuane*, which is Sekhoane in today's Lesotho spelling. Some names below are corrected from the scanned
+text, where the letter R was read as E (for example Eanale → Ranale and Eaphule → Raphule).
+
+### Chiefs, father to son
+```
+Lekhetho            led the clan out of Bopedi; killed at Thabakholokoe
+└─ Ranale           killed by a lion on the march west
+   ├─ SEKHOANE      took the clan to Nkokoto (a Mokoena chief); lived and died there
+   │  └─ Phofele
+   │     └─ Tlane   Bolokong (Bethlehem) → Retief's Nek
+   │        └─ Sekhube   died near Slabbert's Nek; the clan joined Ntai son of Mokheseng
+   │           ├─ Montso      → Tiitii, Ntsasa
+   │           └─ Mochekuane  (stayed at Kooaneng)
+   │              ├─ Raphule → Tsuadi → Mantsela (a wife of Moshoeshoe I)
+   │              └─ Moshabesha → Mokotedi, Bamokepa, Nkhoaba
+   └─ Sejake        young son of Ranale; broke away up the Elands River towards Harrismith
+```
+The clan praise calls a Motloung *"Motšoane'a Sekhoane, mohaoloane'abo Sejake le Motlomelo"*, which ties
+the house of Sekhoane to the related houses of Sejake and Motlomelo. Other recognised houses include
+*ha Sejake le Ntsonyane*, *ha Motlomelo* and *ha Mosoeu*.
+
+### The route
+1. **Bopedi → Thabakholokoe.** Under Lekhetho the clan settled with the Makholokoe. They quarrelled over who was
+   senior enough to taste the first fruits, lost the fight, and Lekhetho was killed. They fled west, and stragglers
+   joined the Batlokoa.
+2. **The march west.** Many died of hunger on the road, and Ranale was killed by a lion.
+3. **Sekhoane at Nkokoto's.** Sekhoane settled the clan with the Bakoena chief Nkokoto, and he and his son Phofele
+   died there. His brother Sejake left for the Elands River.
+4. **Tlane.** The clan moved to Bolokong (Bethlehem), then the Bafokeng drove them to Retief's Nek.
+5. **Sekhube.** They moved near Slabbert's Nek and joined Ntai. The clan then divided: Montso went to Kalle (Governor's Kop)
+   and Mochekuane stayed at Kooaneng.
+6. **The Difaqane (1820s).** The Batlokoa drove Montso's people out. They sheltered with the Hlubi under
+   Pakalita (Mpangazitha), then with the Ngwane under Matiwane (Matuoane), who had the Batloung penned
+   in a kraal with maddened bulls. Only Tiitii escaped. He found Mochekuane's people already under Moshoeshoe
+   at Thaba Bosiu.
+7. **Moshabesha.** He moved from Tsikuane to Sekaoebe (Prynnsberg) and was driven out by Pakalita.
+   The Korana later killed him, and the survivors joined Moshoeshoe at Thaba Bosiu.
+
+These are generations, not dates. At about 25 to 30 years a generation, counting back from Moshoeshoe's
+time (born c. 1786) places Sekhoane roughly in the late 1600s or early 1700s. This is an estimate only.
+
+### What this changes
+In the clan's own account, the house of Sekhoane **came from Bopedi** in the north-east and entered the
+Free State through the Kholokoe country. It doesn't come through Botswana. Ellenberger's tradition that
+the Batloung split from the Barolong could still describe an earlier stage. The route of the Sekhoane
+house and the route of the Botswana Bakgwatheng are separate, and no source joins them, so the
+Bakgwatheng link in section 3 stays unproven.
+
+---
+
+## 5. How to trace your own line
 
 1. **Your family's seboko (clan praise).** The praise usually names the founding ancestor and branch
    (e.g. *Ma-Napo-a-Khare*, *wa ha Nape*, *Letela*). Compare it with the diboko in the sources below.
@@ -98,6 +152,8 @@ unproven**.
 
 ## Sources
 
+- C. Macgregor, *Basuto Traditions* (Cape Town, 1905), "The Batloung", pp. 55–57 — https://archive.org/details/basutotraditions00macg
+- "Motloung wa Sekhoane" (clan praise) — https://izithakazelo.blog/motloung-wa-sekhoane/
 - Jeff Ramsay, "History of Bangwaketse – Children of Matsieng (Part I)", *Sunday Standard* — https://www.sundaystandard.info/history-of-bangwaketse-oco-children-of-matsieng-part-i/
 - Jeff Ramsay, *History of the Bangwaketse Royal House, Part 1* — https://www.researchgate.net/publication/376416144
 - Jeff Ramsay, *Child of God and the Ancestors: Tales of the Bakwena Dynasty before Sechele* — https://www.researchgate.net/publication/380763092
