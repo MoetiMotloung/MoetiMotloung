@@ -39,21 +39,21 @@ Standardise gender-disaggregated data collection on STEM participation and achie
 
 ## Country breakdown
 
-| Country | Accreditation & Quality Assurance | Standardised Curriculum Frameworks | Externally Benchmarked Assessments | Teacher Quality & Mobility | Gender Equity in STEM | Regional Collaboration & Centres of Excellence | Qualification Recognition for Mobility | Overall |
-|---|---|---|---|---|---|---|---|---|
-| Mauritius | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 1.9 |
-| Seychelles | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 1.9 |
-| South Africa | 1 | 2 | 1 | 2 | 1 | 3 | 2 | 1.7 |
-| Botswana | 1 | 2 | 1 | 2 | 1 | 1 | 1 | 1.3 |
-| Namibia | 1 | 2 | 1 | 1 | 1 | 1 | 1 | 1.1 |
-| Zimbabwe | 1 | 2 | 1 | 1 | 1 | 1 | 1 | 1.1 |
-| Eswatini | 1 | 1 | 0 | 1 | 1 | 2 | 1 | 1.0 |
-| Mozambique | 1 | 1 | 0 | 1 | 1 | 2 | 1 | 1.0 |
-| Tanzania | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1.0 |
-| Lesotho | 1 | 1 | 0 | 1 | 1 | 1 | 1 | 0.9 |
-| Zambia | 1 | 1 | 0 | 1 | 1 | 1 | 1 | 0.9 |
-| Malawi | 0 | 1 | 0 | 1 | 1 | 1 | 0 | 0.6 |
-| Madagascar | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.3 |
-| Angola | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0.1 |
-| Comoros | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0.1 |
-| DR Congo | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0.0 |
+| Country | Accreditation & Quality Assurance | Standardised Curriculum Frameworks | Externally Benchmarked Assessments | Teacher Quality & Mobility | Gender Equity in STEM | Regional Collaboration & Centres of Excellence | Qualification Recognition for Mobility | Overall | Population (M) | School-age (M) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Mauritius | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 1.9 | 1.3 | 0.2 |
+| Seychelles | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 1.9 | 0.1 | 0.02 |
+| South Africa | 1 | 2 | 1 | 2 | 1 | 3 | 2 | 1.7 | 60.4 | 12.9 |
+| Botswana | 1 | 2 | 1 | 2 | 1 | 1 | 1 | 1.3 | 2.6 | 0.6 |
+| Namibia | 1 | 2 | 1 | 1 | 1 | 1 | 1 | 1.1 | 2.6 | 0.65 |
+| Zimbabwe | 1 | 2 | 1 | 1 | 1 | 1 | 1 | 1.1 | 16.7 | 4.4 |
+| Eswatini | 1 | 1 | 0 | 1 | 1 | 2 | 1 | 1.0 | 1.2 | 0.32 |
+| Mozambique | 1 | 1 | 0 | 1 | 1 | 2 | 1 | 1.0 | 33.9 | 10.3 |
+| Tanzania | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1.0 | 67.4 | 19.1 |
+| Lesotho | 1 | 1 | 0 | 1 | 1 | 1 | 1 | 0.9 | 2.3 | 0.55 |
+| Zambia | 1 | 1 | 0 | 1 | 1 | 1 | 1 | 0.9 | 20.6 | 5.9 |
+| Malawi | 0 | 1 | 0 | 1 | 1 | 1 | 0 | 0.6 | 20.9 | 6.6 |
+| Madagascar | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.3 | 30.3 | 9.1 |
+| Angola | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0.1 | 36.7 | 11.1 |
+| Comoros | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0.1 | 0.9 | 0.26 |
+| DR Congo | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0.0 | 105.6 | 32.9 |

@@ -1,0 +1,33 @@
+{
+  "_meta": {
+    "description": "Illustrative per-country demographic indicators used to contextualise STEM standardisation scores (e.g. per-capita weighting, school-age cohort sizing). NOT verified statistics -- replace with figures from national statistics offices, UNESCO Institute for Statistics, or World Bank as they become available.",
+    "lastUpdated": "2026-11-22",
+    "updatedBy": "initial-seed",
+    "units": {
+      "populationMillions": "millions of people",
+      "schoolAgePrimaryMillions": "millions, approx. primary school-age (6-12)",
+      "schoolAgeSecondaryMillions": "millions, approx. secondary school-age (13-18)",
+      "femaleSharePct": "% of school-age population that is female",
+      "urbanSharePct": "% of population classified as urban",
+      "gdpPerCapitaUsd": "approx. GDP per capita, current USD"
+    }
+  },
+  "demographics": {
+    "ZAF": { "populationMillions": 60.4, "schoolAgePrimaryMillions": 6.8, "schoolAgeSecondaryMillions": 6.1, "femaleSharePct": 49.8, "urbanSharePct": 68, "gdpPerCapitaUsd": 6200 },
+    "MUS": { "populationMillions": 1.3, "schoolAgePrimaryMillions": 0.1, "schoolAgeSecondaryMillions": 0.1, "femaleSharePct": 49.5, "urbanSharePct": 41, "gdpPerCapitaUsd": 9800 },
+    "SYC": { "populationMillions": 0.1, "schoolAgePrimaryMillions": 0.01, "schoolAgeSecondaryMillions": 0.01, "femaleSharePct": 49.5, "urbanSharePct": 58, "gdpPerCapitaUsd": 16000 },
+    "BWA": { "populationMillions": 2.6, "schoolAgePrimaryMillions": 0.3, "schoolAgeSecondaryMillions": 0.3, "femaleSharePct": 49.9, "urbanSharePct": 73, "gdpPerCapitaUsd": 7300 },
+    "NAM": { "populationMillions": 2.6, "schoolAgePrimaryMillions": 0.35, "schoolAgeSecondaryMillions": 0.3, "femaleSharePct": 49.9, "urbanSharePct": 54, "gdpPerCapitaUsd": 4900 },
+    "SWZ": { "populationMillions": 1.2, "schoolAgePrimaryMillions": 0.17, "schoolAgeSecondaryMillions": 0.15, "femaleSharePct": 50.0, "urbanSharePct": 24, "gdpPerCapitaUsd": 3800 },
+    "ZMB": { "populationMillions": 20.6, "schoolAgePrimaryMillions": 3.3, "schoolAgeSecondaryMillions": 2.6, "femaleSharePct": 49.7, "urbanSharePct": 45, "gdpPerCapitaUsd": 1500 },
+    "ZWE": { "populationMillions": 16.7, "schoolAgePrimaryMillions": 2.4, "schoolAgeSecondaryMillions": 2.0, "femaleSharePct": 49.9, "urbanSharePct": 38, "gdpPerCapitaUsd": 1700 },
+    "LSO": { "populationMillions": 2.3, "schoolAgePrimaryMillions": 0.3, "schoolAgeSecondaryMillions": 0.25, "femaleSharePct": 50.0, "urbanSharePct": 29, "gdpPerCapitaUsd": 1100 },
+    "MWI": { "populationMillions": 20.9, "schoolAgePrimaryMillions": 3.9, "schoolAgeSecondaryMillions": 2.7, "femaleSharePct": 49.8, "urbanSharePct": 18, "gdpPerCapitaUsd": 650 },
+    "TZA": { "populationMillions": 67.4, "schoolAgePrimaryMillions": 11.2, "schoolAgeSecondaryMillions": 7.9, "femaleSharePct": 49.6, "urbanSharePct": 37, "gdpPerCapitaUsd": 1200 },
+    "MOZ": { "populationMillions": 33.9, "schoolAgePrimaryMillions": 6.1, "schoolAgeSecondaryMillions": 4.2, "femaleSharePct": 49.9, "urbanSharePct": 38, "gdpPerCapitaUsd": 550 },
+    "AGO": { "populationMillions": 36.7, "schoolAgePrimaryMillions": 6.6, "schoolAgeSecondaryMillions": 4.5, "femaleSharePct": 49.8, "urbanSharePct": 68, "gdpPerCapitaUsd": 2600 },
+    "COD": { "populationMillions": 105.6, "schoolAgePrimaryMillions": 19.8, "schoolAgeSecondaryMillions": 13.1, "femaleSharePct": 49.9, "urbanSharePct": 46, "gdpPerCapitaUsd": 580 },
+    "COM": { "populationMillions": 0.9, "schoolAgePrimaryMillions": 0.15, "schoolAgeSecondaryMillions": 0.11, "femaleSharePct": 49.9, "urbanSharePct": 29, "gdpPerCapitaUsd": 1600 },
+    "MDG": { "populationMillions": 30.3, "schoolAgePrimaryMillions": 5.4, "schoolAgeSecondaryMillions": 3.7, "femaleSharePct": 49.8, "urbanSharePct": 40, "gdpPerCapitaUsd": 530 }
+  }
+}

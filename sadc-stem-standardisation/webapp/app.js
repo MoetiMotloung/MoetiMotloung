@@ -3,7 +3,10 @@
     dimensions: "../framework/dimensions.json",
     countries: "../framework/countries.json",
     assessments: "../data/assessments.json",
+    demographics: "../data/demographics.json",
   };
+
+  const SEX_CODES = { "0": "not known", "1": "male", "2": "female", "9": "not applicable" };
 
   const state = {
     dimensions: null,
@@ -11,6 +14,7 @@
     countries: null,
     meta: null,
     scores: null, // { countryCode: { dimId: score } }
+    demographics: null, // { countryCode: { populationMillions, ... } }
     editMode: false,
     selectedCountry: null,
     sortBy: "overall",
@@ -39,10 +43,11 @@
   }
 
   async function loadData() {
-    const [dimensionsRes, countriesRes, assessmentsRes] = await Promise.all([
+    const [dimensionsRes, countriesRes, assessmentsRes, demographicsRes] = await Promise.all([
       fetch(DATA_PATHS.dimensions),
       fetch(DATA_PATHS.countries),
       fetch(DATA_PATHS.assessments),
+      fetch(DATA_PATHS.demographics),
     ]);
     const dimensionsJson = await dimensionsRes.json();
     state.dimensions = dimensionsJson.dimensions;
@@ -51,6 +56,9 @@
     const assessmentsJson = await assessmentsRes.json();
     state.meta = assessmentsJson._meta;
     state.scores = assessmentsJson.scores;
+    const demographicsJson = await demographicsRes.json();
+    state.demographics = demographicsJson.demographics;
+    state.demographicsUnits = demographicsJson._meta.units;
   }
 
   function renderStats() {
@@ -224,6 +232,123 @@
     actionsEl.innerHTML = weakest
       .flatMap((d) => d.actions.slice(0, 2).map((a) => `<li><span class="dim-tag">${d.name}</span>${a}</li>`))
       .join("");
+
+    renderDemographics(country.code);
+  }
+
+  function renderDemographics(code) {
+    const grid = document.getElementById("demographics-grid");
+    const demo = state.demographics[code];
+    if (!demo) {
+      grid.innerHTML = "<p class='meta-note'>No demographic data for this country yet.</p>";
+      return;
+    }
+    const cards = [
+      ["Population", `${demo.populationMillions}M`],
+      ["Primary school-age", `${demo.schoolAgePrimaryMillions}M`],
+      ["Secondary school-age", `${demo.schoolAgeSecondaryMillions}M`],
+      ["Female share (school-age)", `${demo.femaleSharePct}%`],
+      ["Urban share", `${demo.urbanSharePct}%`],
+      ["GDP per capita", `$${demo.gdpPerCapitaUsd.toLocaleString()}`],
+    ];
+    grid.innerHTML = cards
+      .map(
+        ([label, value]) => `
+        <div class="detail-card">
+          <div class="dim-name">${label}</div>
+          <div class="dim-score">${value}</div>
+        </div>
+      `
+      )
+      .join("");
+  }
+
+  // --- SADC Harmonised Identification Number (proposed) ---
+  // Format: YYMMDD SSS CC Z X  (13 digits)
+  //   1-6 birth date, 7-9 sequence, 10-11 country code, 12 Luhn checksum, 13 ISO/IEC 5218 sex digit.
+  // Format-compliance demo only: decodes the digits given, never looks up or stores a real person.
+  function luhnCheckDigit(payload) {
+    let total = 0;
+    const digits = payload.split("").reverse();
+    digits.forEach((ch, i) => {
+      let d = parseInt(ch, 10);
+      if (i % 2 === 0) {
+        d *= 2;
+        if (d > 9) d -= 9;
+      }
+      total += d;
+    });
+    return (10 - (total % 10)) % 10;
+  }
+
+  function parseHarmonisedId(idNumber) {
+    const result = { input: idNumber, valid: false, errors: [] };
+    if (!/^\d{13}$/.test(idNumber)) {
+      result.errors.push("must be exactly 13 digits");
+      return result;
+    }
+
+    const expectedCheck = luhnCheckDigit(idNumber.slice(0, 11));
+    const actualCheck = parseInt(idNumber[11], 10);
+    if (expectedCheck !== actualCheck) {
+      result.errors.push(`checksum mismatch: expected ${expectedCheck}, got ${actualCheck}`);
+    }
+
+    const yy = parseInt(idNumber.slice(0, 2), 10);
+    const mm = parseInt(idNumber.slice(2, 4), 10);
+    const dd = parseInt(idNumber.slice(4, 6), 10);
+    const currentYearTwoDigit = new Date().getFullYear() % 100;
+    const century = yy <= currentYearTwoDigit ? 2000 : 1900;
+    const birthDate = new Date(century + yy, mm - 1, dd);
+    const validDate =
+      birthDate.getFullYear() === century + yy &&
+      birthDate.getMonth() === mm - 1 &&
+      birthDate.getDate() === dd;
+    if (!validDate) {
+      result.errors.push(`invalid birth date in digits 1-6: ${idNumber.slice(0, 6)}`);
+    }
+
+    const sequence = idNumber.slice(6, 9);
+    const countryCode = idNumber.slice(9, 11);
+    const country = state.countries.find((c) => c.numericCode === countryCode);
+    if (!country) {
+      result.errors.push(`unknown country code: ${countryCode}`);
+    }
+
+    const sexDigit = idNumber[12];
+    const sex = SEX_CODES[sexDigit] || "unknown";
+
+    result.valid = result.errors.length === 0;
+    result.birthDate = validDate ? birthDate.toISOString().slice(0, 10) : null;
+    result.sequence = sequence;
+    result.countryCode = countryCode;
+    result.countryName = country ? country.name : null;
+    result.sex = sex;
+    return result;
+  }
+
+  function renderIdResult(result) {
+    const el = document.getElementById("id-result");
+    const rows = [
+      ["Valid", result.valid ? "yes" : "no"],
+      ["Birth date", result.birthDate || "—"],
+      ["Sequence", result.sequence || "—"],
+      ["Country", result.countryName ? `${result.countryName} (${result.countryCode})` : (result.countryCode || "—")],
+      ["Sex (ISO/IEC 5218)", result.sex || "—"],
+    ];
+    if (result.errors.length) {
+      rows.push(["Errors", result.errors.join("; ")]);
+    }
+    el.innerHTML = rows
+      .map(
+        ([label, value]) => `
+        <div class="detail-card">
+          <div class="dim-name">${label}</div>
+          <div class="dim-score" style="font-size:0.95rem;">${value}</div>
+        </div>
+      `
+      )
+      .join("");
   }
 
   function renderAll() {
@@ -271,6 +396,12 @@
     document.getElementById("reset-btn").addEventListener("click", async () => {
       await loadData();
       renderAll();
+    });
+
+    document.getElementById("id-validate-btn").addEventListener("click", () => {
+      const input = document.getElementById("id-input");
+      const result = parseHarmonisedId(input.value.trim());
+      renderIdResult(result);
     });
   }
 

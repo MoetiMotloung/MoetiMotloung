@@ -4,9 +4,10 @@
 Usage:
     python3 tools/generate_report.py [--out reports/latest.md]
 
-Reads framework/dimensions.json, framework/countries.json and data/assessments.json
-(relative to the repo root) and writes a Markdown summary: regional index, per-dimension
-regional averages, weakest dimensions, and a per-country breakdown with priority actions.
+Reads framework/dimensions.json, framework/countries.json, data/assessments.json and
+data/demographics.json (relative to the repo root) and writes a Markdown summary: regional
+index, per-dimension regional averages, weakest dimensions, and a per-country breakdown with
+priority actions and demographic context (population, school-age cohort size).
 """
 import argparse
 import json
@@ -28,7 +29,7 @@ def maturity_label(scale, score):
     return "Unknown"
 
 
-def build_report(dimensions_doc, countries, assessments):
+def build_report(dimensions_doc, countries, assessments, demographics):
     dimensions = dimensions_doc["dimensions"]
     scale = dimensions_doc["maturityScale"]
     scores = assessments["scores"]
@@ -75,11 +76,26 @@ def build_report(dimensions_doc, countries, assessments):
 
     lines.append("## Country breakdown")
     lines.append("")
-    lines.append("| Country | " + " | ".join(d["name"] for d in dimensions) + " | Overall |")
-    lines.append("|---|" + "---|" * (len(dimensions) + 1))
+    lines.append(
+        "| Country | "
+        + " | ".join(d["name"] for d in dimensions)
+        + " | Overall | Population (M) | School-age (M) |"
+    )
+    lines.append("|---|" + "---|" * (len(dimensions) + 3))
     for c in sorted(countries, key=lambda c: -country_overall[c["code"]]):
         row_scores = [str(scores[c["code"]].get(d["id"], 0)) for d in dimensions]
-        lines.append(f"| {c['name']} | " + " | ".join(row_scores) + f" | {country_overall[c['code']]:.1f} |")
+        demo = demographics.get(c["code"], {})
+        pop = demo.get("populationMillions", "-")
+        school_age = (
+            round(demo.get("schoolAgePrimaryMillions", 0) + demo.get("schoolAgeSecondaryMillions", 0), 2)
+            if demo
+            else "-"
+        )
+        lines.append(
+            f"| {c['name']} | "
+            + " | ".join(row_scores)
+            + f" | {country_overall[c['code']]:.1f} | {pop} | {school_age} |"
+        )
     lines.append("")
 
     return "\n".join(lines)
@@ -93,8 +109,9 @@ def main():
     dimensions_doc = load_json(ROOT / "framework" / "dimensions.json")
     countries = load_json(ROOT / "framework" / "countries.json")
     assessments = load_json(ROOT / "data" / "assessments.json")
+    demographics = load_json(ROOT / "data" / "demographics.json")["demographics"]
 
-    report = build_report(dimensions_doc, countries, assessments)
+    report = build_report(dimensions_doc, countries, assessments, demographics)
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)

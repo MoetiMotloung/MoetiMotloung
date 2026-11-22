@@ -1,0 +1,43 @@
+{
+  "_disclaimer": "This is a proposed SADC-wide harmonised ID NUMBER FORMAT, built on South Africa's publicly documented Home Affairs ID structure as the reference model. The validator/parser built against this spec operates only on the digit string you give it (e.g. for format-compliance testing with synthetic numbers) -- it does not look up, store, or identify any real person, and infers nothing beyond what is literally encoded in the digits. Never enter a real person's ID number into the demo validator; use synthetic/test numbers only.",
+  "system": "SADC Harmonised Identification Number (proposed)",
+  "basedOn": "South African Home Affairs National ID format (date of birth + checksum digit), extended with a regional country code and a standardised sex identifier.",
+  "format": "YYMMDD SSS CC Z X",
+  "length": 13,
+  "fields": [
+    {
+      "id": "birth_date",
+      "digits": "1-6",
+      "pattern": "YYMMDD",
+      "description": "Date of birth. Two-digit year is disambiguated against the current date (assume 19xx if the resulting date would otherwise be in the future)."
+    },
+    {
+      "id": "sequence",
+      "digits": "7-9",
+      "pattern": "SSS",
+      "description": "Per-day, per-country sequence number disambiguating people born on the same date in the same member state. Carries no demographic meaning on its own (unlike the original SA format, sex is no longer encoded here -- see the dedicated sex digit at the end)."
+    },
+    {
+      "id": "country_code",
+      "digits": "10-11",
+      "pattern": "CC",
+      "description": "2-digit SADC member state code identifying country of registration, per framework/countries.json's numericCode field. This is the regional harmonisation addition over the national SA format.",
+      "source": "framework/countries.json (numericCode)"
+    },
+    {
+      "id": "checksum",
+      "digits": "12",
+      "pattern": "Z",
+      "description": "Check digit computed over digits 1-11 using the standard Luhn algorithm ('the algorithm' carried over from the South African model): starting from the rightmost payload digit and moving left, double every second digit (summing the digits of any two-digit result), sum everything, check digit = (10 - total mod 10) mod 10."
+    },
+    {
+      "id": "sex",
+      "digits": "13",
+      "pattern": "X",
+      "description": "Sex identifier, placed as the final digit per the harmonised design. Uses the ISO/IEC 5218 standard coding so the field is internationally interoperable rather than a region-specific convention.",
+      "values": { "0": "not_known", "1": "male", "2": "female", "9": "not_applicable" }
+    }
+  ],
+  "exampleStructure": "800101 003 13 _ 1  => born 1980-01-01, 3rd registered that day in that country, country code 13 (South Africa), checksum digit computed, sex = male",
+  "harmonisationNotes": "The original South African format encodes gender inside the 7th sequence digit and has no country field, since it is a purely national scheme. This harmonised version keeps the South African model's two core ideas -- an embedded date of birth and a Luhn check digit -- and adds the two fields a multi-country union needs: an explicit 2-digit country code (so the number alone identifies the issuing member state) and a standardised sex digit at the end (using ISO/IEC 5218 rather than the legacy binary split, so the field means the same thing everywhere in the region)."
+}
