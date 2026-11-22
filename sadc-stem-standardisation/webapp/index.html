@@ -40,8 +40,28 @@
   <section class="panel" id="detail-panel">
     <h2 id="detail-title">Country detail</h2>
     <div class="detail-grid" id="detail-grid"></div>
+    <h2 style="margin-top:1rem;">Demographics</h2>
+    <div class="detail-grid" id="demographics-grid"></div>
     <h2 style="margin-top:1rem;">Priority actions (weakest dimensions)</h2>
     <ul class="actions-list" id="detail-actions"></ul>
+  </section>
+
+  <section class="panel">
+    <h2>SADC Harmonised Identification Number &mdash; format validator (demo)</h2>
+    <p class="meta-note">
+      Built on South Africa's Home Affairs ID model (embedded birth date + Luhn check digit), extended with a
+      2-digit SADC country code and a standardised sex digit moved to the end (ISO/IEC 5218) &mdash; see
+      <code>framework/identification.json</code> for the full field layout (<code>YYMMDD SSS CC Z X</code>).
+      This only checks whether a number is well-formed and decodes the fields already encoded in it &mdash; it
+      cannot and does not determine anyone's identity or origin from nothing.
+      <strong>Use synthetic/test numbers only &mdash; never enter a real person's ID number.</strong>
+    </p>
+    <div class="controls" style="margin-bottom:0.75rem;">
+      <input type="text" id="id-input" placeholder="13-digit test number, e.g. 8001010031381" maxlength="13"
+             style="padding:0.5rem 0.7rem; border-radius:6px; border:1px solid var(--border); background:var(--panel-alt); color:var(--text); min-width:260px;" />
+      <button id="id-validate-btn">Validate &amp; decode</button>
+    </div>
+    <div id="id-result" class="detail-grid"></div>
   </section>
 
   <section class="panel">

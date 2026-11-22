@@ -61,6 +61,22 @@ Established, Advanced) so that:
 - Each dimension carries concrete `actions` (see `framework/dimensions.json`) that translate
   directly into a country's or the region's improvement roadmap.
 
+## Harmonised identification and demographics
+
+Qualification recognition for mobility (improvement area 5) depends on member states being
+able to identify a learner or teacher consistently across borders. `framework/identification.json`
+proposes a **SADC Harmonised Identification Number**: it keeps the two ideas that make South
+Africa's Home Affairs ID workable at scale (an embedded date of birth and a Luhn check digit),
+and adds the two fields a multi-country scheme needs — an explicit 2-digit country code, and a
+sex digit standardised on ISO/IEC 5218 rather than a country-specific convention. This is a
+proposed format for format-compliance testing, not a live population register.
+
+`data/demographics.json` adds population, school-age cohort size, gender split, urban/rural
+split and GDP per capita per country, so the standardisation scores in `data/assessments.json`
+can be read alongside the size of the population they affect — e.g. a low score in a
+high-population, high-school-age-cohort country represents a larger absolute number of
+affected learners than the same score in a small state.
+
 ## Data and updates
 
 The seed dataset in `data/assessments.json` is **illustrative**, built from the qualitative
