@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "description": "Baseline maturity scores (0-4) per country per dimension, per framework/dimensions.json. THESE ARE ILLUSTRATIVE PLACEHOLDERS derived from the qualitative regional analysis, not verified national data. Replace with figures sourced from SADCQF, UNESCO/HAQAA, national ministries or SACMEQ as they become available.",
+    "lastUpdated": "2026-09-17",
+    "updatedBy": "initial-seed"
+  },
+  "scores": {
+    "ZAF": { "accreditation": 1, "curriculum": 2, "assessment": 1, "teacher_quality": 2, "gender_equity": 1, "regional_collaboration": 3, "qualification_recognition": 2 },
+    "MUS": { "accreditation": 2, "curriculum": 2, "assessment": 2, "teacher_quality": 2, "gender_equity": 2, "regional_collaboration": 1, "qualification_recognition": 2 },
+    "SYC": { "accreditation": 2, "curriculum": 2, "assessment": 2, "teacher_quality": 2, "gender_equity": 2, "regional_collaboration": 1, "qualification_recognition": 2 },
+    "BWA": { "accreditation": 1, "curriculum": 2, "assessment": 1, "teacher_quality": 2, "gender_equity": 1, "regional_collaboration": 1, "qualification_recognition": 1 },
+    "NAM": { "accreditation": 1, "curriculum": 2, "assessment": 1, "teacher_quality": 1, "gender_equity": 1, "regional_collaboration": 1, "qualification_recognition": 1 },
+    "SWZ": { "accreditation": 1, "curriculum": 1, "assessment": 0, "teacher_quality": 1, "gender_equity": 1, "regional_collaboration": 2, "qualification_recognition": 1 },
+    "ZMB": { "accreditation": 1, "curriculum": 1, "assessment": 0, "teacher_quality": 1, "gender_equity": 1, "regional_collaboration": 1, "qualification_recognition": 1 },
+    "ZWE": { "accreditation": 1, "curriculum": 2, "assessment": 1, "teacher_quality": 1, "gender_equity": 1, "regional_collaboration": 1, "qualification_recognition": 1 },
+    "LSO": { "accreditation": 1, "curriculum": 1, "assessment": 0, "teacher_quality": 1, "gender_equity": 1, "regional_collaboration": 1, "qualification_recognition": 1 },
+    "MWI": { "accreditation": 0, "curriculum": 1, "assessment": 0, "teacher_quality": 1, "gender_equity": 1, "regional_collaboration": 1, "qualification_recognition": 0 },
+    "TZA": { "accreditation": 1, "curriculum": 1, "assessment": 1, "teacher_quality": 1, "gender_equity": 1, "regional_collaboration": 1, "qualification_recognition": 1 },
+    "MOZ": { "accreditation": 1, "curriculum": 1, "assessment": 0, "teacher_quality": 1, "gender_equity": 1, "regional_collaboration": 2, "qualification_recognition": 1 },
+    "AGO": { "accreditation": 0, "curriculum": 1, "assessment": 0, "teacher_quality": 0, "gender_equity": 0, "regional_collaboration": 0, "qualification_recognition": 0 },
+    "COD": { "accreditation": 0, "curriculum": 0, "assessment": 0, "teacher_quality": 0, "gender_equity": 0, "regional_collaboration": 0, "qualification_recognition": 0 },
+    "COM": { "accreditation": 0, "curriculum": 1, "assessment": 0, "teacher_quality": 0, "gender_equity": 0, "regional_collaboration": 0, "qualification_recognition": 0 },
+    "MDG": { "accreditation": 0, "curriculum": 1, "assessment": 0, "teacher_quality": 1, "gender_equity": 0, "regional_collaboration": 0, "qualification_recognition": 0 }
+  }
+}

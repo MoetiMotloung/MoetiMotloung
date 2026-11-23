@@ -1,0 +1,95 @@
+{
+  "maturityScale": [
+    { "level": 0, "label": "Absent", "color": "#b91c1c" },
+    { "level": 1, "label": "Emerging", "color": "#c2410c" },
+    { "level": 2, "label": "Developing", "color": "#ca8a04" },
+    { "level": 3, "label": "Established", "color": "#4d7c0f" },
+    { "level": 4, "label": "Advanced", "color": "#15803d" }
+  ],
+  "dimensions": [
+    {
+      "id": "accreditation",
+      "name": "Accreditation & Quality Assurance",
+      "summary": "No regional body accredits primary/secondary schools; efforts focus on higher education through the SADC Qualifications Framework (SADCQF) and UNESCO/HAQAA workshops.",
+      "status": "Fragmented, emerging",
+      "improvementScope": "Extend SADCQF-style quality assurance mechanisms down to school-level STEM provision, using UNESCO/HAQAA workshops as a model for building shared standards.",
+      "actions": [
+        "Map existing national school QA bodies and identify common ground for a light-touch regional STEM accreditation standard",
+        "Pilot a voluntary regional accreditation mark for STEM programmes/schools that meet agreed minimum criteria",
+        "Extend HAQAA-style peer-review workshops from higher education down to secondary STEM provision"
+      ]
+    },
+    {
+      "id": "curriculum",
+      "name": "Standardised Curriculum Frameworks",
+      "summary": "Each country maintains its own national curriculum (reviewed roughly every 5 years). Systems are structurally similar (12-13 years of schooling, English as medium of instruction in senior secondary) but content, depth and pedagogy diverge.",
+      "status": "National control, structural similarity",
+      "improvementScope": "Develop a SADC STEM Competency Framework defining minimum learning outcomes for primary and secondary STEM, linked to the SADCQF but applied to school-level exit competencies, enabling comparability without mandating a single curriculum.",
+      "actions": [
+        "Draft a SADC STEM Competency Framework specifying minimum exit-level learning outcomes for maths and science",
+        "Map each member state's national curriculum against the framework to identify gaps and overlaps",
+        "Link the framework formally to the SADCQF as a school-level companion instrument"
+      ]
+    },
+    {
+      "id": "assessment",
+      "name": "Externally Benchmarked Assessments",
+      "summary": "No SADC-wide school-leaving exam exists. Individual countries use national examination boards. Cambridge/IB are used in private international schools but are not the regional standard.",
+      "status": "Absent at regional level",
+      "improvementScope": "Introduce a voluntary regional STEM benchmark assessment (sampling-based, akin to TIMSS/SACMEQ) that allows systems to compare proficiency without replacing national exams.",
+      "actions": [
+        "Adopt or expand a sampling-based regional STEM assessment (e.g. aligned to SACMEQ/TIMSS methodology) across all member states",
+        "Publish comparable regional STEM proficiency benchmarks on a recurring cycle",
+        "Use benchmark results to inform national curriculum review cycles"
+      ]
+    },
+    {
+      "id": "teacher_quality",
+      "name": "Teacher Quality & Mobility",
+      "summary": "SADC Teacher Standards and Competencies exist, but application to STEM-specific teacher training is uneven. Few TVET instructors combine subject knowledge, industrial experience and pedagogical skill.",
+      "status": "Standards exist; STEM application uneven",
+      "improvementScope": "Establish regional STEM teacher certification standards and promote exchange programmes, extending the SADC Protocol's principle of treating students as local in member states to STEM teachers.",
+      "actions": [
+        "Define a regional STEM teacher certification standard built on the existing SADC Teacher Standards and Competencies",
+        "Launch a STEM teacher exchange/secondment programme across member states",
+        "Require industrial-experience components for TVET STEM instructor certification"
+      ]
+    },
+    {
+      "id": "gender_equity",
+      "name": "Gender Equity in STEM",
+      "summary": "Girls' proficiency in maths and science at the end of schooling lags boys' across the region, and women are underrepresented in STEM higher education and leadership.",
+      "status": "Persistent regional gap",
+      "improvementScope": "Standardise gender-disaggregated data collection on STEM participation and achievement, and coordinate regional campaigns and targeted financial support as recommended by UNESCO.",
+      "actions": [
+        "Mandate gender-disaggregated STEM participation/achievement reporting across all member states",
+        "Coordinate a regional girls-in-STEM campaign with shared messaging and materials",
+        "Pool and target scholarship/financial support for girls and women in STEM"
+      ]
+    },
+    {
+      "id": "regional_collaboration",
+      "name": "Regional Collaboration & Centres of Excellence",
+      "summary": "Successful bilateral models exist (e.g. South Africa-Eswatini science roadshows, South Africa-Mozambique higher education/TVET agreement). The SADC University of Transformation concept is in development.",
+      "status": "Pockets of bilateral success",
+      "improvementScope": "Scale existing bilateral partnerships into a network of SADC STEM Centres of Excellence for secondary education, piloting standardised enrichment programmes, teacher training modules and shared lab resources.",
+      "actions": [
+        "Formalise a network of SADC STEM Centres of Excellence building on existing bilateral partnerships",
+        "Pilot shared/virtual laboratory resource-sharing across at least 3 member states",
+        "Standardise STEM enrichment and teacher-training modules for use across the network"
+      ]
+    },
+    {
+      "id": "qualification_recognition",
+      "name": "Qualification Recognition for Mobility",
+      "summary": "Current recognition systems are often symbolic and fail to address structural labour-market barriers. Only a few SADC states have ratified key global conventions.",
+      "status": "Symbolic recognition, weak implementation",
+      "improvementScope": "Prioritise operationalising the SADCQF for STEM qualifications specifically, requiring technical alignment plus political will to streamline verification and build mutual trust in QA mechanisms.",
+      "actions": [
+        "Prioritise STEM qualifications in the operational rollout of the SADCQF",
+        "Streamline cross-border verification processes for STEM qualifications",
+        "Encourage ratification of relevant global recognition conventions by remaining member states"
+      ]
+    }
+  ]
+}
