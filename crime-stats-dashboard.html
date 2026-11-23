@@ -19,7 +19,8 @@
     --good-bg:        rgba(12,163,12,0.09);
     --critical:       #d03b3b;
     --critical-bg:    rgba(208,59,59,0.09);
-    --accent:         #2a78d6;
+    --series-q1:       #2a78d6;
+    --series-q2:       #eb6834;
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) {
@@ -36,7 +37,8 @@
       --good-bg:        rgba(12,163,12,0.14);
       --critical:       #e66767;
       --critical-bg:    rgba(230,103,103,0.14);
-      --accent:         #3987e5;
+      --series-q1:       #3987e5;
+      --series-q2:       #d95926;
     }
   }
   :root[data-theme="dark"] {
@@ -53,7 +55,8 @@
     --good-bg:        rgba(12,163,12,0.14);
     --critical:       #e66767;
     --critical-bg:    rgba(230,103,103,0.14);
-    --accent:         #3987e5;
+    --series-q1:       #3987e5;
+    --series-q2:       #d95926;
   }
 
   * { box-sizing: border-box; }
@@ -93,6 +96,7 @@
     font-weight: 600;
     padding: 3px 9px;
     border-radius: 999px;
+    white-space: nowrap;
   }
   .badge.good { color: var(--good); background: var(--good-bg); }
   .badge.critical { color: var(--critical); background: var(--critical-bg); }
@@ -101,8 +105,9 @@
   .section-title {
     font-size: 1rem;
     font-weight: 600;
-    margin: 32px 0 12px;
+    margin: 32px 0 4px;
   }
+  .section-note { color: var(--text-muted); font-size: 0.82rem; margin: 0 0 12px; }
 
   .tile-grid {
     display: grid;
@@ -117,74 +122,102 @@
   }
   .tile-label { font-size: 0.82rem; color: var(--text-secondary); margin: 0 0 6px; }
   .tile-value { font-size: 1.5rem; font-weight: 600; margin: 0 0 6px; }
+  .tile-sub { color: var(--text-muted); font-size: 0.74rem; margin-top: 4px; }
+
+  .legend {
+    display: flex;
+    gap: 18px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; }
+  .legend-swatch.q1 { background: var(--series-q1); }
+  .legend-swatch.q2 { background: var(--series-q2); }
 
   .chart-card { overflow-x: auto; }
-  .bar-row {
+  .bar-group { margin-bottom: 14px; }
+  .bar-group:last-child { margin-bottom: 0; }
+  .bar-line {
     display: grid;
-    grid-template-columns: 150px 1fr 64px;
+    grid-template-columns: 150px 1fr 64px 36px;
     align-items: center;
     gap: 10px;
-    min-height: 30px;
-    margin-bottom: 4px;
+    min-height: 22px;
   }
-  .bar-row .cat {
+  .bar-line + .bar-line { margin-top: 2px; }
+  .bar-line .cat {
     font-size: 0.82rem;
     color: var(--text-secondary);
     text-align: right;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    grid-row: span 2;
+    align-self: center;
   }
+  .bar-line.second .cat { visibility: hidden; }
   .bar-track {
     position: relative;
-    height: 22px;
-    background: transparent;
+    height: 16px;
   }
   .bar-baseline {
     position: absolute;
     left: 50%;
-    top: -6px;
-    bottom: -6px;
+    top: -4px;
+    bottom: -4px;
     width: 1px;
     background: var(--baseline);
   }
   .bar-fill {
     position: absolute;
-    top: 2px;
-    bottom: 2px;
+    top: 1px;
+    bottom: 1px;
     border-radius: 4px;
   }
-  .bar-fill.good { background: var(--good); }
-  .bar-fill.critical { background: var(--critical); }
-  .bar-row .pct {
-    font-size: 0.82rem;
+  .bar-fill.q1 { background: var(--series-q1); }
+  .bar-fill.q2 { background: var(--series-q2); }
+  .bar-line .pct {
+    font-size: 0.8rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
   }
-  .pct.good { color: var(--good); }
-  .pct.critical { color: var(--critical); }
+  .bar-line .tag {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .analysis ul { margin: 0; padding-left: 20px; }
+  .analysis li { margin-bottom: 10px; line-height: 1.5; font-size: 0.92rem; }
+  .analysis li:last-child { margin-bottom: 0; }
+  .analysis strong { color: var(--text-primary); }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
   }
   th, td {
     text-align: right;
     padding: 8px 10px;
     border-bottom: 1px solid var(--gridline);
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
   th:first-child, td:first-child { text-align: left; font-variant-numeric: normal; }
   th {
     color: var(--text-muted);
     font-weight: 500;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.02em;
   }
+  th.grp-q1, th.grp-q2 { border-bottom-color: var(--gridline); }
   td.dir-good { color: var(--good); font-weight: 600; }
   td.dir-critical { color: var(--critical); font-weight: 600; }
+  td.na { color: var(--text-muted); font-weight: 400; }
 
   footer {
     margin-top: 32px;
@@ -201,78 +234,112 @@
 <div class="wrap">
   <header>
     <h1>SAPS Crime Statistics Dashboard</h1>
-    <p class="subtitle">National reported crime — Q1 2026/27 (Apr–Jun 2026) vs. Q1 2025/26, the same quarter last year (Apr–Jun 2025)</p>
-    <p class="meta">Source: South African Police Service (SAPS) quarterly crime statistics release, Pretoria, 28 Aug 2026 · Figures compiled 16 Sep 2026</p>
+    <p class="subtitle">National reported crime — Q2 2026/27 (Jul–Sep 2026) vs. Q2 2025/26, the same quarter last year (Jul–Sep 2025), with Q1 2026/27 shown alongside for trend</p>
+    <p class="meta">Source: South African Police Service (SAPS) quarterly crime statistics release, Pretoria, 20 Nov 2026 (Q2) and 28 Aug 2026 (Q1) · Figures compiled 23 Nov 2026</p>
   </header>
 
   <div class="card">
-    <p class="hero-label">Overall contact crime, national</p>
+    <p class="hero-label">Overall contact crime, national — Q2 2026/27</p>
     <div class="hero-row">
-      <p class="hero-value">142,112</p>
-      <span class="badge good">▼ 2.3% vs Q1 2025/26</span>
+      <p class="hero-value">~155,260</p>
+      <span class="badge good">▼ 2.3% vs Q2 2025/26</span>
     </div>
-    <p class="hero-note">Down from 145,446 cases in Apr–Jun 2025 to 142,112 in Apr–Jun 2026 — a decline of 3,334 cases across the 17 contact-crime categories SAPS tracks.</p>
+    <p class="hero-note">Down roughly 3,655 cases from an estimated 158,910 in Jul–Sep 2025 to about 155,260 in Jul–Sep 2026 (SAPS reported the 2.3% decline and case-count drop; the two totals here are back-calculated from those figures, not published directly by SAPS). Q1 2026/27 fell at the identical pace, also −2.3%.</p>
   </div>
 
-  <p class="section-title">Category comparison</p>
+  <p class="section-title">Q2 2026/27 category snapshot</p>
+  <p class="section-note">Figures marked “≈” are derived from SAPS's reported percentage change combined with its reported case-count change; SAPS had not published the full breakdown table for these categories at compile time.</p>
   <div class="tile-grid">
     <div class="tile">
       <p class="tile-label">Murder</p>
-      <p class="tile-value">5,427</p>
-      <span class="badge good">▼ 5.9%</span>
+      <p class="tile-value">5,590</p>
+      <span class="badge good">▼ 3.5%</span>
+      <p class="tile-sub">vs 5,794 in Q2 2025/26</p>
     </div>
     <div class="tile">
       <p class="tile-label">Attempted murder</p>
-      <p class="tile-value">6,958</p>
-      <span class="badge critical">▲ 8.7%</span>
+      <p class="tile-value">7,470</p>
+      <span class="badge critical">▲ 3.0%</span>
+      <p class="tile-sub">vs 7,255 in Q2 2025/26</p>
     </div>
     <div class="tile">
       <p class="tile-label">Sexual offences</p>
-      <p class="tile-value">11,532</p>
-      <span class="badge good">▼ 0.8%</span>
+      <p class="tile-value">12,444</p>
+      <span class="badge good">▼ 2.7%</span>
+      <p class="tile-sub">vs ≈12,790 in Q2 2025/26</p>
     </div>
     <div class="tile">
       <p class="tile-label">— of which rape</p>
-      <p class="tile-value">9,201</p>
-      <span class="badge good">▼ 0.3%</span>
-    </div>
-    <div class="tile">
-      <p class="tile-label">Assault (GBH)</p>
-      <p class="tile-value">38,589</p>
-      <span class="badge critical">▲ 2.5%</span>
+      <p class="tile-value">9,908</p>
+      <span class="badge good">▼ 2.4%</span>
+      <p class="tile-sub">vs ≈10,152 in Q2 2025/26</p>
     </div>
     <div class="tile">
       <p class="tile-label">Carjacking</p>
-      <p class="tile-value">3,811</p>
-      <span class="badge good">▼ 18.2%</span>
+      <p class="tile-value">≈3,967</p>
+      <span class="badge good">▼ 16.8%</span>
+      <p class="tile-sub">vs ≈4,768 in Q2 2025/26</p>
+    </div>
+    <div class="tile">
+      <p class="tile-label">Truck hijacking</p>
+      <p class="tile-value">▼ 27.9%</p>
+      <span class="badge good">largest decline this quarter</span>
+      <p class="tile-sub">raw counts not published</p>
     </div>
     <div class="tile">
       <p class="tile-label">House robbery</p>
-      <p class="tile-value">4,416</p>
-      <span class="badge good">▼ 17.6%</span>
+      <p class="tile-value">≈4,756</p>
+      <span class="badge good">▼ 7.0%</span>
+      <p class="tile-sub">vs ≈5,114 in Q2 2025/26</p>
     </div>
     <div class="tile">
       <p class="tile-label">Business robbery</p>
-      <p class="tile-value">2,733</p>
-      <span class="badge good">▼ 11.8%</span>
+      <p class="tile-value">≈2,883</p>
+      <span class="badge good">▼ 7.0%</span>
+      <p class="tile-sub">vs ≈3,100 in Q2 2025/26</p>
+    </div>
+    <div class="tile">
+      <p class="tile-label">Cash-in-transit heists</p>
+      <p class="tile-value">36</p>
+      <span class="badge critical">▲ 50.0%</span>
+      <p class="tile-sub">vs 24 in Q2 2025/26 — small base, watch this one</p>
     </div>
   </div>
 
-  <p class="section-title">Change vs. same quarter last year, by category</p>
-  <div class="card chart-card" role="img" aria-label="Diverging bar chart of percentage change in each crime category, Q1 2026/27 vs Q1 2025/26. Carjacking down 18.2%, house robbery down 17.6%, business robbery down 11.8%, murder down 5.9%, sexual offences down 0.8%, rape down 0.3%, assault GBH up 2.5%, attempted murder up 8.7%.">
+  <p class="section-title">Change vs. same quarter last year — Q1 compared with Q2</p>
+  <p class="section-note">Categories SAPS reported for both quarters, so the pace of change can be tracked. Assault (GBH), truck hijacking and cash-in-transit are excluded here — no matching figure was published for both quarters.</p>
+  <div class="card chart-card" role="img" aria-label="Grouped diverging bar chart comparing percentage change versus the same quarter a year earlier, for Q1 2026/27 and Q2 2026/27, across eight crime categories. In most categories the decline eased between Q1 and Q2: carjacking -18.2% to -16.8%, house robbery -17.6% to -7.0%, business robbery -11.8% to -7.0%, murder -5.9% to -3.5%, attempted murder's increase slowed from +8.7% to +3.0%, and overall contact crime held steady at -2.3% both quarters. Sexual offences and rape moved the other way, from near-flat in Q1 to a clearer decline in Q2.">
+    <div class="legend">
+      <span class="legend-item"><span class="legend-swatch q1"></span>Q1 2026/27 (Apr–Jun)</span>
+      <span class="legend-item"><span class="legend-swatch q2"></span>Q2 2026/27 (Jul–Sep)</span>
+    </div>
     <div id="chart"></div>
   </div>
 
-  <p class="section-title">Full figures</p>
+  <p class="section-title">Patterns across the two quarters</p>
+  <div class="card analysis">
+    <ul>
+      <li><strong>Robbery-type crime is still falling, but momentum is fading fast.</strong> House robbery's year-on-year decline more than halved (−17.6% → −7.0%), business robbery's nearly halved (−11.8% → −7.0%), and even carjacking — the best-performing category in both quarters — eased slightly (−18.2% → −16.8%). If this deceleration continues, these categories could turn positive within a quarter or two.</li>
+      <li><strong>Murder and attempted murder tell a similar story.</strong> Murder's decline slowed from −5.9% to −3.5%, while attempted murder kept rising but at a much gentler rate (+8.7% → +3.0%). Read together, violent crime's improvement is losing steam across the board, not just in property-related categories.</li>
+      <li><strong>Sexual offences are the one category moving the other way.</strong> Both sexual offences overall and rape specifically went from nearly flat in Q1 (−0.8%, −0.3%) to a clearer year-on-year decline in Q2 (−2.7%, −2.4%) — the only tracked category where the trend improved between quarters.</li>
+      <li><strong>The national headline number is hiding the divergence underneath.</strong> Overall contact crime declined at an almost identical −2.3% in both quarters — a reassuringly stable top-line figure — but that stability masks robbery-type crime's fading improvement being offset by sexual offences' newly accelerating decline.</li>
+      <li><strong>Cash-in-transit heists spiked 50%</strong> (24 → 36 incidents) in Q2, with no comparable Q1 figure available to confirm whether this is a new trend or continues one already underway — worth watching next quarter given how quickly this category can swing off a small base.</li>
+      <li><strong>Murder remains geographically uneven.</strong> The Eastern Cape, Free State and Northern Cape posted murder increases in both the Q1 and Q2 releases, even as the national murder count falls — flagged by the Acting Police Minister as a persistent concern.</li>
+    </ul>
+  </div>
+
+  <p class="section-title">Full figures, both quarters</p>
   <div class="card" style="overflow-x:auto;">
     <table>
       <thead>
         <tr>
           <th>Category</th>
-          <th>Q1 2025/26 (Apr–Jun 2025)</th>
-          <th>Q1 2026/27 (Apr–Jun 2026)</th>
-          <th>Change</th>
-          <th>% change</th>
+          <th class="grp-q1">Q1 2025/26</th>
+          <th class="grp-q1">Q1 2026/27</th>
+          <th class="grp-q1">Q1 % Δ</th>
+          <th class="grp-q2">Q2 2025/26</th>
+          <th class="grp-q2">Q2 2026/27</th>
+          <th class="grp-q2">Q2 % Δ</th>
         </tr>
       </thead>
       <tbody id="table-body"></tbody>
@@ -280,75 +347,124 @@
   </div>
 
   <footer>
-    <p>Reported crime is subject to revision as SAPS reconciles precinct-level returns. "Good"/"bad" coloring reflects direction relative to public safety (a decline in reported crime is shown in green), not a value judgement on any single case.</p>
-    <p>Sources:
+    <p>Reported crime is subject to revision as SAPS reconciles precinct-level returns. "Good"/"bad" coloring reflects direction relative to public safety (a decline in reported crime is shown in green), not a value judgement on any single case. Figures marked "≈" in the tiles and table are derived by combining a reported percentage change with a reported raw case-count change — SAPS had not published full breakdown tables for every category at compile time; treat them as close estimates, not official totals.</p>
+    <p>Q1 2026/27 sources:
       <a href="https://www.businessday.co.za/news/2026-08-28-murder-cases-fall-by-59-in-first-quarter/" target="_blank" rel="noopener">Business Day, 28 Aug 2026</a> ·
       <a href="https://www.sanews.gov.za/south-africa/crime-stats-show-areas-progress-criminal-threats-remain" target="_blank" rel="noopener">SAnews</a> ·
-      <a href="https://iol.co.za/news/south-africa/kwazulu-natal/2026-08-28-saps-crime-stats-carjackings-and-robberies-decline-gbvf-rises/" target="_blank" rel="noopener">IOL</a> ·
+      <a href="https://iol.co.za/news/south-africa/kwazulu-natal/2026-08-28-saps-crime-stats-carjackings-and-robberies-decline-gbvf-rises/" target="_blank" rel="noopener">IOL</a>
+    </p>
+    <p>Q2 2026/27 sources:
+      <a href="https://www.sanews.gov.za/south-africa/saps-records-decline-most-violent-crime-categories-murder-remains-too-high" target="_blank" rel="noopener">SAnews, 20 Nov 2026</a> ·
+      <a href="https://www.jacarandafm.com/news/news/sa-records-5590-murders-9908-rape-casesr/" target="_blank" rel="noopener">Jacaranda FM</a> ·
+      <a href="https://iol.co.za/sunday-tribune/news/2026-11-20-5-590-people-murdered-in-south-africa-during-second-quarter/" target="_blank" rel="noopener">IOL / Sunday Tribune</a> ·
       <a href="https://www.saps.gov.za/services/crimestats.php" target="_blank" rel="noopener">SAPS official crime stats portal</a>
     </p>
   </footer>
 </div>
 
 <script>
+  // pct values are SAPS-reported percentage changes; q1/q2 raw counts are
+  // officially reported where available, "~" flagged entries are derived
+  // (see footer note) and null means no matching figure was published.
   var data = [
-    { cat: "Carjacking",        q1: 4657,  q2: 3811,  pct: -18.2, dir: "good" },
-    { cat: "House robbery",     q1: 5360,  q2: 4416,  pct: -17.6, dir: "good" },
-    { cat: "Business robbery",  q1: 3099,  q2: 2733,  pct: -11.8, dir: "good" },
-    { cat: "Murder",            q1: 5770,  q2: 5427,  pct: -5.9,  dir: "good" },
-    { cat: "Sexual offences",   q1: 11630, q2: 11532, pct: -0.8,  dir: "good" },
-    { cat: "Rape",              q1: 9233,  q2: 9201,  pct: -0.3,  dir: "good" },
-    { cat: "Assault (GBH)",     q1: 37659, q2: 38589, pct: 2.5,   dir: "critical" },
-    { cat: "Attempted murder",  q1: 6401,  q2: 6958,  pct: 8.7,   dir: "critical" }
+    { cat: "Carjacking",        q1a: 4657,  q1b: 3811,  q1pct: -18.2, q2a: 4768,  q2b: 3967,  q2pct: -16.8, q2aDerived: true, q2bDerived: true },
+    { cat: "House robbery",     q1a: 5360,  q1b: 4416,  q1pct: -17.6, q2a: 5114,  q2b: 4756,  q2pct: -7.0,  q2aDerived: true, q2bDerived: true },
+    { cat: "Business robbery",  q1a: 3099,  q1b: 2733,  q1pct: -11.8, q2a: 3100,  q2b: 2883,  q2pct: -7.0,  q2aDerived: true, q2bDerived: true },
+    { cat: "Murder",            q1a: 5770,  q1b: 5427,  q1pct: -5.9,  q2a: 5794,  q2b: 5590,  q2pct: -3.5,  q2aDerived: false, q2bDerived: false },
+    { cat: "Sexual offences",   q1a: 11630, q1b: 11532, q1pct: -0.8,  q2a: 12790, q2b: 12444, q2pct: -2.7,  q2aDerived: true, q2bDerived: false },
+    { cat: "Rape",              q1a: 9233,  q1b: 9201,  q1pct: -0.3,  q2a: 10152, q2b: 9908,  q2pct: -2.4,  q2aDerived: true, q2bDerived: false },
+    { cat: "Attempted murder",  q1a: 6401,  q1b: 6958,  q1pct: 8.7,   q2a: 7255,  q2b: 7470,  q2pct: 3.0,   q2aDerived: false, q2bDerived: false },
+    { cat: "Overall contact crime", q1a: 145446, q1b: 142112, q1pct: -2.3, q2a: 158910, q2b: 155260, q2pct: -2.3, q2aDerived: true, q2bDerived: true }
   ];
 
-  var maxAbs = Math.max.apply(null, data.map(function (d) { return Math.abs(d.pct); }));
+  function dir(pct) { return pct > 0 ? "critical" : "good"; }
+  function fmtPct(pct) { return (pct > 0 ? "+" : "") + pct.toFixed(1) + "%"; }
+  function fmtNum(n) { return Math.round(n).toLocaleString("en-ZA"); }
+
+  var maxAbs = Math.max.apply(null, data.reduce(function (acc, d) {
+    return acc.concat([Math.abs(d.q1pct), Math.abs(d.q2pct)]);
+  }, []));
   var chart = document.getElementById("chart");
   var tbody = document.getElementById("table-body");
 
-  data.forEach(function (d) {
-    var halfWidth = (Math.abs(d.pct) / maxAbs) * 45;
-    var row = document.createElement("div");
-    row.className = "bar-row";
+  function makeBarLine(pct, seriesClass, seriesTag, isSecond) {
+    var line = document.createElement("div");
+    line.className = "bar-line" + (isSecond ? " second" : "");
 
     var cat = document.createElement("div");
     cat.className = "cat";
-    cat.textContent = d.cat;
-    row.appendChild(cat);
+    line.appendChild(cat);
 
     var track = document.createElement("div");
     track.className = "bar-track";
-
     var baseline = document.createElement("div");
     baseline.className = "bar-baseline";
     track.appendChild(baseline);
-
     var fill = document.createElement("div");
-    fill.className = "bar-fill " + d.dir;
-    if (d.pct < 0) {
-      fill.style.right = "50%";
-      fill.style.width = halfWidth + "%";
-    } else {
-      fill.style.left = "50%";
-      fill.style.width = halfWidth + "%";
-    }
+    fill.className = "bar-fill " + seriesClass;
+    var halfWidth = (Math.abs(pct) / maxAbs) * 45;
+    if (pct < 0) { fill.style.right = "50%"; fill.style.width = halfWidth + "%"; }
+    else { fill.style.left = "50%"; fill.style.width = halfWidth + "%"; }
     track.appendChild(fill);
-    row.appendChild(track);
+    line.appendChild(track);
 
-    var pct = document.createElement("div");
-    pct.className = "pct " + d.dir;
-    pct.textContent = (d.pct > 0 ? "+" : "") + d.pct.toFixed(1) + "%";
-    row.appendChild(pct);
+    var pctEl = document.createElement("div");
+    pctEl.className = "pct";
+    pctEl.textContent = fmtPct(pct);
+    line.appendChild(pctEl);
 
-    chart.appendChild(row);
+    var tag = document.createElement("div");
+    tag.className = "tag";
+    tag.textContent = seriesTag;
+    line.appendChild(tag);
+
+    return { line: line, catEl: cat };
+  }
+
+  data.forEach(function (d) {
+    var group = document.createElement("div");
+    group.className = "bar-group";
+
+    var row1 = makeBarLine(d.q1pct, "q1", "Q1", false);
+    row1.catEl.textContent = d.cat;
+    group.appendChild(row1.line);
+
+    var row2 = makeBarLine(d.q2pct, "q2", "Q2", true);
+    group.appendChild(row2.line);
+
+    chart.appendChild(group);
 
     var tr = document.createElement("tr");
+    var q2aCell = (d.q2aDerived ? "≈" : "") + fmtNum(d.q2a);
+    var q2bCell = (d.q2bDerived ? "≈" : "") + fmtNum(d.q2b);
     tr.innerHTML =
       "<td>" + d.cat + "</td>" +
-      "<td>" + d.q1.toLocaleString("en-ZA") + "</td>" +
-      "<td>" + d.q2.toLocaleString("en-ZA") + "</td>" +
-      "<td class='dir-" + d.dir + "'>" + (d.q2 - d.q1 >= 0 ? "+" : "") + (d.q2 - d.q1).toLocaleString("en-ZA") + "</td>" +
-      "<td class='dir-" + d.dir + "'>" + (d.pct > 0 ? "+" : "") + d.pct.toFixed(1) + "%</td>";
+      "<td>" + fmtNum(d.q1a) + "</td>" +
+      "<td>" + fmtNum(d.q1b) + "</td>" +
+      "<td class='dir-" + dir(d.q1pct) + "'>" + fmtPct(d.q1pct) + "</td>" +
+      "<td>" + q2aCell + "</td>" +
+      "<td>" + q2bCell + "</td>" +
+      "<td class='dir-" + dir(d.q2pct) + "'>" + fmtPct(d.q2pct) + "</td>";
+    tbody.appendChild(tr);
+  });
+
+  // Categories SAPS reported only for Q2 (no matching Q1 figure)
+  var q2Only = [
+    { cat: "Truck hijacking", pct: -27.9 },
+    { cat: "Cash-in-transit heists", q1: null, q2a: 24, q2b: 36, pct: 50.0 },
+    { cat: "Property-related crime", pct: -4.4 },
+    { cat: "Trio crime (carjacking + house/business robbery)", pct: -10.6 }
+  ];
+  q2Only.forEach(function (d) {
+    var tr = document.createElement("tr");
+    var q2aCell = d.q2a !== undefined ? fmtNum(d.q2a) : "<span class='na'>not published</span>";
+    var q2bCell = d.q2b !== undefined ? fmtNum(d.q2b) : "<span class='na'>not published</span>";
+    tr.innerHTML =
+      "<td>" + d.cat + " <span class='na'>(Q2 only)</span></td>" +
+      "<td class='na'>—</td><td class='na'>—</td><td class='na'>—</td>" +
+      "<td>" + q2aCell + "</td>" +
+      "<td>" + q2bCell + "</td>" +
+      "<td class='dir-" + dir(d.pct) + "'>" + fmtPct(d.pct) + "</td>";
     tbody.appendChild(tr);
   });
 </script>
