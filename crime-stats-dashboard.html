@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAPS Crime Stats Dashboard</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --good:           #0ca30c;
+    --good-bg:        rgba(12,163,12,0.09);
+    --critical:       #d03b3b;
+    --critical-bg:    rgba(208,59,59,0.09);
+    --accent:         #2a78d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page-plane:     #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --good:           #0ca30c;
+      --good-bg:        rgba(12,163,12,0.14);
+      --critical:       #e66767;
+      --critical-bg:    rgba(230,103,103,0.14);
+      --accent:         #3987e5;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page-plane:     #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --gridline:       #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --good:           #0ca30c;
+    --good-bg:        rgba(12,163,12,0.14);
+    --critical:       #e66767;
+    --critical-bg:    rgba(230,103,103,0.14);
+    --accent:         #3987e5;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+  }
+  header { margin-bottom: 24px; }
+  h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 0.95rem; margin: 0; }
+  .meta { color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; }
+
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .hero-label { color: var(--text-secondary); font-size: 0.9rem; margin: 0 0 6px; }
+  .hero-value { font-size: 3rem; font-weight: 600; line-height: 1; margin: 0; }
+  .hero-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+  .badge.good { color: var(--good); background: var(--good-bg); }
+  .badge.critical { color: var(--critical); background: var(--critical-bg); }
+  .hero-note { color: var(--text-muted); font-size: 0.85rem; margin-top: 10px; }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 32px 0 12px;
+  }
+
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .tile {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .tile-label { font-size: 0.82rem; color: var(--text-secondary); margin: 0 0 6px; }
+  .tile-value { font-size: 1.5rem; font-weight: 600; margin: 0 0 6px; }
+
+  .chart-card { overflow-x: auto; }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 150px 1fr 64px;
+    align-items: center;
+    gap: 10px;
+    min-height: 30px;
+    margin-bottom: 4px;
+  }
+  .bar-row .cat {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bar-track {
+    position: relative;
+    height: 22px;
+    background: transparent;
+  }
+  .bar-baseline {
+    position: absolute;
+    left: 50%;
+    top: -6px;
+    bottom: -6px;
+    width: 1px;
+    background: var(--baseline);
+  }
+  .bar-fill {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    border-radius: 4px;
+  }
+  .bar-fill.good { background: var(--good); }
+  .bar-fill.critical { background: var(--critical); }
+  .bar-row .pct {
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .pct.good { color: var(--good); }
+  .pct.critical { color: var(--critical); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  th, td {
+    text-align: right;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--gridline);
+    font-variant-numeric: tabular-nums;
+  }
+  th:first-child, td:first-child { text-align: left; font-variant-numeric: normal; }
+  th {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  td.dir-good { color: var(--good); font-weight: 600; }
+  td.dir-critical { color: var(--critical); font-weight: 600; }
+
+  footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gridline);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  footer a { color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SAPS Crime Statistics Dashboard</h1>
+    <p class="subtitle">National reported crime — Q1 2026/27 (Apr–Jun 2026) vs. Q1 2025/26, the same quarter last year (Apr–Jun 2025)</p>
+    <p class="meta">Source: South African Police Service (SAPS) quarterly crime statistics release, Pretoria, 28 Aug 2026 · Figures compiled 16 Sep 2026</p>
+  </header>
+
+  <div class="card">
+    <p class="hero-label">Overall contact crime, national</p>
+    <div class="hero-row">
+      <p class="hero-value">142,112</p>
+      <span class="badge good">▼ 2.3% vs Q1 2025/26</span>
+    </div>
+    <p class="hero-note">Down from 145,446 cases in Apr–Jun 2025 to 142,112 in Apr–Jun 2026 — a decline of 3,334 cases across the 17 contact-crime categories SAPS tracks.</p>
+  </div>
+
+  <p class="section-title">Category comparison</p>
+  <div class="tile-grid">
+    <div class="tile">
+      <p class="tile-label">Murder</p>
+      <p class="tile-value">5,427</p>
+      <span class="badge good">▼ 5.9%</span>
+    </div>
+    <div class="tile">
+      <p class="tile-label">Attempted murder</p>
+      <p class="tile-value">6,958</p>
+      <span class="badge critical">▲ 8.7%</span>
+    </div>
+    <div class="tile">
+      <p class="tile-label">Sexual offences</p>
+      <p class="tile-value">11,532</p>
+      <span class="badge good">▼ 0.8%</span>
+    </div>
+    <div class="tile">
+      <p class="tile-label">— of which rape</p>
+      <p class="tile-value">9,201</p>
+      <span class="badge good">▼ 0.3%</span>
+    </div>
+    <div class="tile">
+      <p class="tile-label">Assault (GBH)</p>
+      <p class="tile-value">38,589</p>
+      <span class="badge critical">▲ 2.5%</span>
+    </div>
+    <div class="tile">
+      <p class="tile-label">Carjacking</p>
+      <p class="tile-value">3,811</p>
+      <span class="badge good">▼ 18.2%</span>
+    </div>
+    <div class="tile">
+      <p class="tile-label">House robbery</p>
+      <p class="tile-value">4,416</p>
+      <span class="badge good">▼ 17.6%</span>
+    </div>
+    <div class="tile">
+      <p class="tile-label">Business robbery</p>
+      <p class="tile-value">2,733</p>
+      <span class="badge good">▼ 11.8%</span>
+    </div>
+  </div>
+
+  <p class="section-title">Change vs. same quarter last year, by category</p>
+  <div class="card chart-card" role="img" aria-label="Diverging bar chart of percentage change in each crime category, Q1 2026/27 vs Q1 2025/26. Carjacking down 18.2%, house robbery down 17.6%, business robbery down 11.8%, murder down 5.9%, sexual offences down 0.8%, rape down 0.3%, assault GBH up 2.5%, attempted murder up 8.7%.">
+    <div id="chart"></div>
+  </div>
+
+  <p class="section-title">Full figures</p>
+  <div class="card" style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Q1 2025/26 (Apr–Jun 2025)</th>
+          <th>Q1 2026/27 (Apr–Jun 2026)</th>
+          <th>Change</th>
+          <th>% change</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <p>Reported crime is subject to revision as SAPS reconciles precinct-level returns. "Good"/"bad" coloring reflects direction relative to public safety (a decline in reported crime is shown in green), not a value judgement on any single case.</p>
+    <p>Sources:
+      <a href="https://www.businessday.co.za/news/2026-08-28-murder-cases-fall-by-59-in-first-quarter/" target="_blank" rel="noopener">Business Day, 28 Aug 2026</a> ·
+      <a href="https://www.sanews.gov.za/south-africa/crime-stats-show-areas-progress-criminal-threats-remain" target="_blank" rel="noopener">SAnews</a> ·
+      <a href="https://iol.co.za/news/south-africa/kwazulu-natal/2026-08-28-saps-crime-stats-carjackings-and-robberies-decline-gbvf-rises/" target="_blank" rel="noopener">IOL</a> ·
+      <a href="https://www.saps.gov.za/services/crimestats.php" target="_blank" rel="noopener">SAPS official crime stats portal</a>
+    </p>
+  </footer>
+</div>
+
+<script>
+  var data = [
+    { cat: "Carjacking",        q1: 4657,  q2: 3811,  pct: -18.2, dir: "good" },
+    { cat: "House robbery",     q1: 5360,  q2: 4416,  pct: -17.6, dir: "good" },
+    { cat: "Business robbery",  q1: 3099,  q2: 2733,  pct: -11.8, dir: "good" },
+    { cat: "Murder",            q1: 5770,  q2: 5427,  pct: -5.9,  dir: "good" },
+    { cat: "Sexual offences",   q1: 11630, q2: 11532, pct: -0.8,  dir: "good" },
+    { cat: "Rape",              q1: 9233,  q2: 9201,  pct: -0.3,  dir: "good" },
+    { cat: "Assault (GBH)",     q1: 37659, q2: 38589, pct: 2.5,   dir: "critical" },
+    { cat: "Attempted murder",  q1: 6401,  q2: 6958,  pct: 8.7,   dir: "critical" }
+  ];
+
+  var maxAbs = Math.max.apply(null, data.map(function (d) { return Math.abs(d.pct); }));
+  var chart = document.getElementById("chart");
+  var tbody = document.getElementById("table-body");
+
+  data.forEach(function (d) {
+    var halfWidth = (Math.abs(d.pct) / maxAbs) * 45;
+    var row = document.createElement("div");
+    row.className = "bar-row";
+
+    var cat = document.createElement("div");
+    cat.className = "cat";
+    cat.textContent = d.cat;
+    row.appendChild(cat);
+
+    var track = document.createElement("div");
+    track.className = "bar-track";
+
+    var baseline = document.createElement("div");
+    baseline.className = "bar-baseline";
+    track.appendChild(baseline);
+
+    var fill = document.createElement("div");
+    fill.className = "bar-fill " + d.dir;
+    if (d.pct < 0) {
+      fill.style.right = "50%";
+      fill.style.width = halfWidth + "%";
+    } else {
+      fill.style.left = "50%";
+      fill.style.width = halfWidth + "%";
+    }
+    track.appendChild(fill);
+    row.appendChild(track);
+
+    var pct = document.createElement("div");
+    pct.className = "pct " + d.dir;
+    pct.textContent = (d.pct > 0 ? "+" : "") + d.pct.toFixed(1) + "%";
+    row.appendChild(pct);
+
+    chart.appendChild(row);
+
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td>" + d.cat + "</td>" +
+      "<td>" + d.q1.toLocaleString("en-ZA") + "</td>" +
+      "<td>" + d.q2.toLocaleString("en-ZA") + "</td>" +
+      "<td class='dir-" + d.dir + "'>" + (d.q2 - d.q1 >= 0 ? "+" : "") + (d.q2 - d.q1).toLocaleString("en-ZA") + "</td>" +
+      "<td class='dir-" + d.dir + "'>" + (d.pct > 0 ? "+" : "") + d.pct.toFixed(1) + "%</td>";
+    tbody.appendChild(tr);
+  });
+</script>
+</body>
+</html>
